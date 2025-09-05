@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>So Hoc</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/Sohoc.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="logo">
+            <a href="web.html">
+                <img id="site-logo" src="../asset/image/Material/logohsgs.jpg" alt="logo">
+            </a>
+            SỐ HỌC
+        </div>
+
+        <div class="header-right">
+            <form class="search-bar" onsubmit="event.preventDefault(); alert('Tìm kiếm!');">
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="web.html" class="header-icon"><i class="fas fa-home"></i></a>
+            <div id="avatarWrap">
+                <img id="headerAvatar" src="../asset/image/Material/user.jpg" alt="avatar">
+                <div id="headerUser">Guest</div>
+            </div>
+            <button class="nav-menu-button" id="navMenuButton">
+                <i class="fas fa-th-large"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container-main">
+        <h2 style="color: var(--primary-color); font-family: 'Bungee', cursive; text-shadow: 0 2px 12px #fff, 0 4px 24px rgba(37, 117, 252, 0.2);">Bộ bài tập Số Học</h2>
+        <div id="cards" class="cards" aria-live="polite"></div>
+    </div>
+
+    <!-- New Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay">
+        <button class="close-nav-button" id="closeNavButton">&times;</button>
+        <div class="nav-grid">
+            <a href="web.html" class="nav-card">
+                <i class="fas fa-home"></i>
+                <span>Trang Chủ</span>
+            </a>
+            <a href="Sohoc.html" class="nav-card">
+                <i class="fas fa-calculator"></i>
+                <span>Số Học</span>
+            </a>
+            <a href="Pt.html" class="nav-card">
+                <i class="fas fa-equals"></i>
+                <span>Đại Số</span>
+            </a>
+            <a href="Dethi.html" class="nav-card">
+                <i class="fas fa-book-open"></i>
+                <span>Đề Thi</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal for showing images -->
+    <div class="modal fade" id="viewImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="viewImageModalTitle" class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body p-0" id="viewImageModalImagesContainer"></div>
+                <div class="modal-footer">
+                    <p id="viewImageModalDesc" class="mb-0"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // User Info
+        const currentUser = JSON.parse(localStorage.getItem('current_user'));
+        if (currentUser) {
+            document.getElementById('headerAvatar').src = currentUser.avatar || '../asset/image/Material/user.jpg';
+            document.getElementById('headerUser').textContent = currentUser.email || 'Guest';
+        }
+        document.getElementById('avatarWrap').addEventListener('click', () => {
+            window.location.href = currentUser ? 'profile.html' : 'sign_in.html';
+        });
+
+        const storageKey = 'sohocExercises';
+
+        function getExercises() {
+            const storedExercises = localStorage.getItem(storageKey);
+            if (storedExercises) {
+                return JSON.parse(storedExercises);
+            }
+
+            let exercises = [
+                // Dongdu
+                {
+                    id: 'sohoc-dd-1',
+                    title: 'Đồng Dư [1]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu1.jpg',
+                },
+                {
+                    id: 'sohoc-dd-2',
+                    title: 'Đồng Dư [2]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu2.jpg',
+                },
+                {
+                    id: 'sohoc-dd-3',
+                    title: 'Đồng Dư [3]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu3.jpg',
+                },
+                {
+                    id: 'sohoc-dd-4',
+                    title: 'Đồng Dư [4]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu4.jpg',
+                },
+                {
+                    id: 'sohoc-dd-5',
+                    title: 'Đồng Dư [5]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu5.jpg',
+                },
+                {
+                    id: 'sohoc-dd-6',
+                    title: 'Đồng Dư [6]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu6.jpg',
+                },
+                {
+                    id: 'sohoc-dd-7',
+                    title: 'Đồng Dư [7.1]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu7_1.jpg',
+                },
+                {
+                    id: 'sohoc-dd-8',
+                    title: 'Đồng Dư [7.2]',
+                    summary: 'Phương pháp đồng dư trong Số Học',
+                    image: '../asset/image/Sohoc/Dongdu/Dongdu7_2.jpg',
+                },
+                // GCD
+                {
+                    id: 'sohoc-gcd-1',
+                    title: 'GCD [1]',
+                    summary: 'Bài toán về ước chung lớn nhất',
+                    image: '../asset/image/Sohoc/GCD/GCD_1.jpg',
+                },
+                {
+                    id: 'sohoc-gcd-2',
+                    title: 'GCD [2]',
+                    summary: 'Bài toán về ước chung lớn nhất',
+                    image: '../asset/image/Sohoc/GCD/GCD_2.jpg',
+                },
+                {
+                    id: 'sohoc-gcd-3',
+                    title: 'GCD [3]',
+                    summary: 'Bài toán về ước chung lớn nhất',
+                    image: '../asset/image/Sohoc/GCD/GCD_3.jpg',
+                },
+                // Huuti
+                {
+                    id: 'sohoc-huuti-1',
+                    title: 'Hữu Tỉ [1]',
+                    summary: 'Các bài toán về số hữu tỉ',
+                    image: '../asset/image/Sohoc/Huuti/huuti(1).jpg',
+                },
+                {
+                    id: 'sohoc-huuti-2',
+                    title: 'Hữu Tỉ [2]',
+                    summary: 'Các bài toán về số hữu tỉ',
+                    image: '../asset/image/Sohoc/Huuti/huuti(2).jpg',
+                },
+                {
+                    id: 'sohoc-huuti-3',
+                    title: 'Hữu Tỉ [3]',
+                    summary: 'Các bài toán về số hữu tỉ',
+                    image: '../asset/image/Sohoc/Huuti/huuti(3).jpg',
+                },
+                {
+                    id: 'sohoc-huuti-4',
+                    title: 'Hữu Tỉ [4]',
+                    summary: 'Các bài toán về số hữu tỉ',
+                    image: '../asset/image/Sohoc/Huuti/huuti(4).jpg',
+                },
+                // Luivohan
+                {
+                    id: 'sohoc-luivohan-1',
+                    title: 'Lùi Vô Hạn',
+                    summary: 'Phương pháp lùi vô hạn',
+                    image: '../asset/image/Sohoc/Luivohan/Luivohan.jpg',
+                },
+                {
+                    id: 'sohoc-pn-2',
+                    title: 'Phần Nguyên [2]',
+                    summary: 'Các bài toán về phần nguyên',
+                    image: '../asset/image/Sohoc/Phannguyen/Phannguyen_2.jpg',
+                },
+                // PTNN
+                {
+                    id: 'sohoc-ptnn-1',
+                    title: 'PT Nghiệm Nguyên',
+                    summary: 'Phương trình nghiệm nguyên',
+                    image: '../asset/image/Sohoc/PTNN/PTNN.jpg',
+                },
+                {
+                    id: 'sohoc-ptnn-2',
+                    title: 'PTNN (Lim) [1]',
+                    summary: 'Phương trình nghiệm nguyên (Lim)',
+                    image: '../asset/image/Sohoc/PTNN/PTNN(Lim)(1).jpg',
+                },
+            ];
+
+            const rarities = ['Legendary', 'Rare', 'Uncommon', 'Common'];
+            exercises.forEach(ex => {
+                if (ex.title.includes('(Lim)')) {
+                    ex.difficulty = 'Mythical';
+                } else {
+                    ex.difficulty = rarities[Math.floor(Math.random() * rarities.length)];
+                }
+            });
+
+            localStorage.setItem(storageKey, JSON.stringify(exercises));
+            return exercises;
+        }
+
+        const exercises = getExercises();
+        const sortOrder = ['Mythical', 'Legendary', 'Rare', 'Uncommon', 'Common'];
+        exercises.sort((a, b) => {
+            const aIndex = sortOrder.indexOf(a.difficulty);
+            const bIndex = sortOrder.indexOf(b.difficulty);
+            return aIndex - bIndex;
+        });
+
+        // Render cards
+        const cardsRoot = document.getElementById('cards');
+        exercises.forEach(ex => {
+            const card = document.createElement('article');
+            card.className = `exercise-card ${ex.difficulty}`;
+            card.innerHTML = `
+                <div class="thumb">
+                    <img src="${ex.image}" alt="${ex.title}">
+                </div>
+                <div class="meta">
+                    <div class="badge-diff ${ex.difficulty}">${ex.difficulty}</div>
+                </div>
+                <h3 class="title">${ex.title}</h3>
+                <p class="desc">${ex.summary}</p>
+                <div class="card-actions">
+                    <button class="play-btn">Mở Đề</button>
+                    <button class="btn-ghost"><i class="fa fa-eye"></i> Xem Ảnh</button>
+                </div>
+            `;
+
+            card.querySelector('.play-btn').addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                showImageInModal(ex.image, ex.title, ex.summary);
+            });
+
+            card.querySelector('.btn-ghost').addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                showImageInModal(ex.image, ex.title, ex.summary);
+            });
+
+            card.addEventListener('click', () => showImageInModal(ex.image, ex.title, ex.summary));
+            cardsRoot.appendChild(card);
+        });
+
+        function showImageInModal(imgSrc, title, desc) {
+            const container = document.getElementById('viewImageModalImagesContainer');
+            container.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = title;
+            img.style.width = "100%";
+            container.appendChild(img);
+
+            document.getElementById('viewImageModalTitle').innerText = title;
+            document.getElementById('viewImageModalDesc').innerText = desc;
+            const modal = new bootstrap.Modal(document.getElementById('viewImageModal'));
+            modal.show();
+        }
+
+        // New Navigation Logic
+        const navMenuButton = document.getElementById('navMenuButton');
+        const navOverlay = document.getElementById('navOverlay');
+        const closeNavButton = document.getElementById('closeNavButton');
+
+        navMenuButton.addEventListener('click', () => {
+            navOverlay.classList.add('show');
+        });
+
+        closeNavButton.addEventListener('click', () => {
+            navOverlay.classList.remove('show');
+        });
+
+        navOverlay.addEventListener('click', (e) => {
+            if (e.target === navOverlay) {
+                navOverlay.classList.remove('show');
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+        #bg-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            filter: blur(3px); /* Add a slight blur to the background */
+        }
+
+        #intro2-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: 9999;
+            display: none;
+        }
+
+        #fade-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #fff;
+            opacity: 0;
+            z-index: 10000;
+            pointer-events: none;
+            transition: opacity 1s;
+        }
+
+        #sign-in-section {
+            perspective: 1000px; /* For 3D effect */
+        }
+        
+        .card {
+            transition: transform 0.5s cubic-bezier(.25,.8,.25,1), box-shadow 0.5s;
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: card-enter 1s cubic-bezier(.25,.8,.25,1) forwards;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        @keyframes card-enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #sign-in-section.hide .card {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        
+        .btn-primary {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
