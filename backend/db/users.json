@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "username": "Kirra136",
+    "email": "lviethung6a5@gmail.com",
+    "password": "$2a$08$bvGC34oNdlh9472ahjx.GeO45rEaOakDI2nlQxcZcfsiiqTUaIFvW",
+    "avatar": ""
+  },
+  {
+    "id": 2,
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "$2a$08$MfJVlxEnTd.uGIMH5tdrKuuAwHytpYWBtIceKgll2QpOqMQ0rxn.q",
+    "avatar": ""
+  }
+]

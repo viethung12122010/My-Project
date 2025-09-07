@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "title": "Chào mừng đến với My Project - Nền tảng học tập trực tuyến",
+    "summary": "My Project ra mắt với nhiều tính năng học tập hiện đại, giúp học sinh ôn tập hiệu quả.",
+    "content": "\n      <h2>My Project - Nền tảng học tập trực tuyến mới</h2>\n      <p>Chúng tôi vui mừng giới thiệu My Project, một nền tảng học tập trực tuyến được thiết kế đặc biệt cho học sinh Việt Nam.</p>\n      \n      <h3>Tính năng nổi bật:</h3>\n      <ul>\n        <li>Thư viện đề thi phong phú từ các năm trước</li>\n        <li>Hệ thống bài giảng số học chuyên sâu</li>\n        <li>Giao diện thân thiện, dễ sử dụng</li>\n        <li>Hỗ trợ học tập trên mọi thiết bị</li>\n      </ul>\n      \n      <p>Hãy đăng ký ngay hôm nay để trải nghiệm những tính năng tuyệt vời này!</p>\n    ",
+    "image": "/asset/image/Material/chacchananhlamdc.jpg",
+    "category": "Thông báo",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "/asset/image/Material/bg_pc.jpg",
+    "createdAt": "2025-09-07T06:20:27.792Z",
+    "updatedAt": "2025-09-07T06:20:27.793Z"
+  },
+  {
+    "id": 2,
+    "title": "Hướng dẫn sử dụng thư viện đề thi KHTN",
+    "summary": "Tìm hiểu cách sử dụng hiệu quả thư viện đề thi Khoa học Tự nhiên trên My Project.",
+    "content": "\n      <h2>Cách sử dụng thư viện đề thi KHTN</h2>\n      <p>Thư viện đề thi Khoa học Tự nhiên của chúng tôi chứa hàng trăm đề thi từ các năm học khác nhau.</p>\n      \n      <h3>Các bước sử dụng:</h3>\n      <ol>\n        <li>Truy cập vào mục \"Đề Thi\" từ menu chính</li>\n        <li>Chọn môn học và năm học phù hợp</li>\n        <li>Tải xuống đề thi hoặc làm bài trực tuyến</li>\n        <li>Xem đáp án và giải thích chi tiết</li>\n      </ol>\n      \n      <p>Chúc các bạn học tập hiệu quả!</p>\n    ",
+    "image": "/asset/image/Dethi/KHTN/KHTN_2019-2020_v1.jpg",
+    "category": "Hướng dẫn",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "/asset/image/Material/bg_pc.jpg",
+    "createdAt": "2025-09-06T06:20:27.793Z",
+    "updatedAt": "2025-09-06T06:20:27.793Z"
+  },
+  {
+    "id": 3,
+    "title": "Mẹo học Số học hiệu quả cho học sinh",
+    "summary": "Những phương pháp học số học được chứng minh hiệu quả, giúp học sinh nắm vững kiến thức.",
+    "content": "\n      <h2>Phương pháp học Số học hiệu quả</h2>\n      <p>Số học là nền tảng quan trọng của toán học. Dưới đây là những mẹo học hiệu quả:</p>\n      \n      <h3>1. Nắm vững các khái niệm cơ bản</h3>\n      <p>Hiểu rõ định nghĩa và tính chất của các phép toán cơ bản.</p>\n      \n      <h3>2. Luyện tập thường xuyên</h3>\n      <p>Làm bài tập đều đặn để củng cố kiến thức.</p>\n      \n      <h3>3. Sử dụng công cụ hỗ trợ</h3>\n      <p>Tận dụng các ứng dụng và website học tập như My Project.</p>\n      \n      <h3>4. Học nhóm</h3>\n      <p>Thảo luận với bạn bè để hiểu sâu hơn về các vấn đề khó.</p>\n    ",
+    "image": "/asset/image/Sohoc/GCD/GCD_1.jpg",
+    "category": "Học tập",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "/asset/image/Material/bg_pc.jpg",
+    "createdAt": "2025-09-05T06:20:27.793Z",
+    "updatedAt": "2025-09-05T06:20:27.793Z"
+  },
+  {
+    "id": 4,
+    "title": "Log Post",
+    "summary": "I test that",
+    "content": "I test that",
+    "image": "",
+    "category": "Log",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "",
+    "createdAt": "2025-09-07T07:20:40.091Z",
+    "updatedAt": "2025-09-07T07:20:40.091Z"
+  },
+  {
+    "id": 5,
+    "title": "Log Post",
+    "summary": "MẸ MÀY BELL",
+    "content": "MẸ MÀY BELL",
+    "image": "",
+    "category": "Log",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "",
+    "createdAt": "2025-09-07T07:21:01.985Z",
+    "updatedAt": "2025-09-07T07:21:01.985Z"
+  }
+]

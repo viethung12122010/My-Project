@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log - My Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Bungee&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2575fc;
+            --secondary-color: #ff6a00;
+            --accent-color: #e74c3c;
+            --dark-color: #1e293b;
+            --light-color: #e3f0ff;
+            --background-start: #e3f0ff;
+            --background-end: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.07);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 70px; /* Space for fixed header */
+            color: var(--dark-color);
+        }
+
+        /* Header Styles - Matching other pages */
+        .site-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+            margin-left: 32px;
+            font-family: 'Bungee', cursive, sans-serif;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 12px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            background: var(--light-color);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo img:hover {
+            transform: rotate(360deg);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-right: 32px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 5px 10px;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-weight: 600;
+            color: var(--dark-color);
+            width: 200px;
+            transition: width 0.3s ease;
+        }
+
+        .search-input:focus {
+            width: 250px;
+        }
+
+        .search-btn {
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .header-icon {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .header-icon:hover {
+            color: var(--secondary-color);
+            transform: scale(1.1) translateY(-2px);
+        }
+
+        #avatarWrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        #headerAvatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        #headerUser { 
+            font-weight: 600; 
+            color: var(--dark-color);
+        }
+
+        .nav-menu-button {
+            background: none; 
+            border: none; 
+            font-size: 1.5rem; 
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu-button:hover {
+            color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .log-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .log-header-main {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .log-header-main h1 { color: var(--primary-color); margin-bottom: 10px; font-weight: 700; font-size: 2.5rem; font-family: 'Bungee', cursive; }
+        .log-header-main p { color: var(--dark-color); font-size: 1.1rem; }
+        .log-header-main i { color: var(--secondary-color); margin-right: 10px; }
+        
+        .post-form, .login-prompt, .post-card, .loading, .no-posts {
+            background: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e5e7eb;
+        }
+
+        .post-textarea { width: 100%; min-height: 120px; border: 1px solid #d1d5db; border-radius: 10px; padding: 15px; font-size: 16px; resize: vertical; font-family: inherit; }
+        .post-textarea:focus { border-color: var(--secondary-color); outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15); }
+        .post-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .post-btn, .login-btn, .toggle-form-btn { background: var(--secondary-color); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 16px; transition: var(--transition); }
+        .post-btn:hover, .login-btn:hover, .toggle-form-btn:hover { background: #2980b9; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        .posts-container { display: flex; flex-direction: column; gap: 25px; }
+        .post-card { padding: 0; }
+        .post-card.admin-post { border: 2px solid #ffd700; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3); background: linear-gradient(135deg, #fff9e6, #ffffff); }
+        .post-header { display: flex; align-items: center; padding: 20px 25px; border-bottom: 1px solid #e5e7eb; }
+        .post-header.admin-header { background: linear-gradient(135deg, #ffd700, #ffed4e); }
+        .post-avatar { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--secondary-color); }
+        .post-avatar.admin-avatar { border: 3px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .post-author { font-weight: 700; color: var(--primary-color); margin-bottom: 2px; font-size: 17px; }
+        .post-author.admin-author { color: #b8860b; font-size: 18px; }
+        .post-author.admin-author::after { content: " 👑"; }
+        .post-date { font-size: 13px; color: var(--dark-color); }
+        .post-content { font-size: 16px; line-height: 1.8; color: #374151; font-weight: 400; padding: 25px; }
+        
+        /* Nav Overlay - Matching other pages */
+        .nav-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(5px); 
+            z-index: 2000; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 0.4s ease, visibility 0.4s ease; 
+        }
+        .nav-overlay.show { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        .nav-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1.5rem; 
+            max-width: 600px;
+            padding: 2rem;
+        }
+        .nav-card { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+            color: white; 
+            padding: 2rem; 
+            border-radius: 20px; 
+            text-align: center; 
+            text-decoration: none; 
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(37, 117, 252, 0.3);
+        }
+        .nav-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 40px rgba(37, 117, 252, 0.4);
+            color: white;
+        }
+        .nav-card i { 
+            font-size: 2.5rem; 
+            margin-bottom: 1rem; 
+            display: block;
+        }
+        .nav-card span { 
+            font-family: 'Bungee', cursive; 
+            font-size: 1.2rem; 
+            display: block; 
+        }
+        .close-nav-button { 
+            position: absolute; 
+            top: 30px; 
+            right: 30px; 
+            background: none; 
+            border: none; 
+            color: white; 
+            font-size: 2.5rem; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .close-nav-button:hover {
+            transform: scale(1.1);
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="logo">
+            <a href="web.html">
+                <img id="site-logo" src="../asset/image/Material/logohsgs.jpg" alt="logo">
+            </a>
+            LOG
+        </div>
+        <div class="header-right">
+            <form class="search-bar" onsubmit="event.preventDefault(); alert('Tìm kiếm!');">
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="web.html" class="header-icon"><i class="fas fa-home"></i></a>
+            <button class="notification-header-btn" onclick="window.location.href='log.html'" style="opacity: 0.5; cursor: not-allowed;" disabled>
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="headerNotificationCount">0</span>
+            </button>
+            <div id="avatarWrap">
+                <img id="headerAvatar" src="../asset/image/Material/user.jpg" alt="avatar">
+                <div id="headerUser">Guest</div>
+            </div>
+            <button class="nav-menu-button" id="navMenuButton">
+                <i class="fas fa-th-large"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay">
+        <button class="close-nav-button" id="closeNavButton">&times;</button>
+        <div class="nav-grid">
+            <a href="web.html" class="nav-card"> <i class="fas fa-home"></i> <span>Trang Chủ</span> </a>
+            <a href="Sohoc.html" class="nav-card"> <i class="fas fa-calculator"></i> <span>Số Học</span> </a>
+            <a href="Pt.html" class="nav-card"> <i class="fas fa-equals"></i> <span>Đại Số</span> </a>
+            <a href="Dethi.html" class="nav-card"> <i class="fas fa-book-open"></i> <span>Đề Thi</span> </a>
+        </div>
+    </div>
+
+    <main>
+        <div class="log-container">
+            <div class="log-header-main">
+                <h1><i class="fas fa-clipboard-list"></i> My Project Log</h1>
+                <p>Cập nhật và thông báo từ đội ngũ phát triển</p>
+            </div>
+
+            <div id="loginPrompt" class="login-prompt" style="display: none;">
+                <h3><i class="fas fa-info-circle"></i> Đăng nhập để đăng bài</h3>
+                <p>Bạn có thể xem tất cả bài đăng, nhưng cần đăng nhập để tạo bài viết mới</p>
+                <a href="sign_in.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Đăng nhập ngay</a>
+            </div>
+
+            <button id="toggleFormBtn" class="toggle-form-btn" style="display: none;">
+                <i class="fas fa-plus"></i> Tạo bài viết mới
+            </button>
+            
+            <div id="postForm" class="post-form" style="display: none;">
+                <h3 style="margin-bottom: 20px; color: var(--primary-color); font-weight: 700;">
+                    <i class="fas fa-edit"></i> Tạo bài viết mới
+                </h3>
+                <textarea id="postTextarea" class="post-textarea" placeholder="Chia sẻ cập nhật mới với cộng đồng..." maxlength="1000"></textarea>
+                <div class="post-actions">
+                    <span id="charCount" class="char-count">0/1000</span>
+                    <button id="postBtn" class="post-btn"><i class="fas fa-paper-plane"></i> Đăng bài</button>
+                </div>
+            </div>
+
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Đang tải...</p>
+            </div>
+
+            <div id="postsContainer" class="posts-container" style="display: none;"></div>
+
+            <div id="noPosts" class="no-posts" style="display: none;">
+                <h3>Chưa có bài đăng nào</h3>
+                <p>Hãy quay lại sau để xem những cập nhật mới nhất!</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentUser = null;
+        const ADMIN_EMAIL = 'lviethung6a5@gmail.com';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            currentUser = JSON.parse(localStorage.getItem('current_user'));
+            const token = localStorage.getItem('token');
+
+            setupHeader();
+            setupNavigation();
+
+            if (currentUser && token) {
+                loadPosts();
+                // Cho phép tất cả user đăng bài
+                document.getElementById('toggleFormBtn').style.display = 'flex';
+                setupPostForm();
+            } else {
+                // Vẫn cho phép xem bài đăng khi chưa đăng nhập
+                loadPosts();
+                document.getElementById('loginPrompt').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+
+        function setupHeader() {
+            const headerAvatar = document.getElementById('headerAvatar');
+            const headerUser = document.getElementById('headerUser');
+            const avatarWrap = document.getElementById('avatarWrap');
+            const defaultAvatar = '../asset/image/Material/user.jpg';
+
+            if (currentUser) {
+                headerAvatar.src = currentUser.avatar || defaultAvatar;
+                headerUser.textContent = currentUser.email || 'Guest';
+            } else {
+                headerAvatar.src = defaultAvatar;
+                headerUser.textContent = 'Guest';
+            }
+
+            headerAvatar.onerror = function() {
+                this.onerror = null;
+                this.src = defaultAvatar;
+            };
+
+            avatarWrap.addEventListener('click', () => {
+                window.location.href = currentUser ? 'profile.html' : 'sign_in.html';
+            });
+        }
+
+        function setupNavigation() {
+            const navMenuButton = document.getElementById('navMenuButton');
+            const navOverlay = document.getElementById('navOverlay');
+            const closeNavButton = document.getElementById('closeNavButton');
+
+            navMenuButton.addEventListener('click', () => navOverlay.classList.add('show'));
+            closeNavButton.addEventListener('click', () => navOverlay.classList.remove('show'));
+            navOverlay.addEventListener('click', (e) => {
+                if (e.target === navOverlay) navOverlay.classList.remove('show');
+            });
+        }
+
+        function setupPostForm() {
+            const toggleBtn = document.getElementById('toggleFormBtn');
+            const postForm = document.getElementById('postForm');
+            const postTextarea = document.getElementById('postTextarea');
+            const charCount = document.getElementById('charCount');
+            const postBtn = document.getElementById('postBtn');
+
+            toggleBtn.addEventListener('click', function() {
+                const isVisible = postForm.style.display === 'block';
+                postForm.style.display = isVisible ? 'none' : 'block';
+                toggleBtn.innerHTML = isVisible ? '<i class="fas fa-plus"></i> Tạo bài viết mới' : '<i class="fas fa-minus"></i> Ẩn form';
+                if (!isVisible) postTextarea.focus();
+            });
+
+            postTextarea.addEventListener('input', function() {
+                const count = this.value.length;
+                charCount.textContent = `${count}/1000`;
+                postBtn.disabled = count === 0 || count > 1000;
+            });
+
+            postBtn.addEventListener('click', handlePost);
+        }
+
+        async function loadPosts() {
+            const loading = document.getElementById('loading');
+            const postsContainer = document.getElementById('postsContainer');
+            const noPosts = document.getElementById('noPosts');
+
+            loading.style.display = 'block';
+            postsContainer.style.display = 'none';
+            noPosts.style.display = 'none';
+
+            try {
+                const response = await fetch('http://localhost:4000/api/news?limit=50');
+                const data = await response.json();
+                loading.style.display = 'none';
+                if (data.news && data.news.length > 0) {
+                    displayPosts(data.news);
+                } else {
+                    noPosts.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                loading.style.display = 'none';
+                noPosts.style.display = 'block';
+            }
+        }
+
+        function displayPosts(posts) {
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                console.log('Post object:', post);
+                const postCard = document.createElement('div');
+                const isAdmin = post.author === 'Admin' || post.authorId === 1;
+                
+                // Thêm class admin-post nếu là admin
+                postCard.className = isAdmin ? 'post-card admin-post' : 'post-card';
+
+                const canDelete = currentUser && (currentUser.email === ADMIN_EMAIL || currentUser.id === post.authorId);
+                const postDate = new Date(post.createdAt).toLocaleString('vi-VN');
+                const defaultAvatar = '../asset/image/Material/user.jpg';
+                
+                // Sử dụng ảnh nền cho admin
+                const adminAvatar = '../asset/image/Material/bg_pc.jpg';
+                const avatarSrc = isAdmin ? adminAvatar : (post.authorAvatar || defaultAvatar);
+
+                postCard.innerHTML = `
+                    <div class="post-header ${isAdmin ? 'admin-header' : ''}">
+                        <img src="${avatarSrc}" alt="Avatar" class="post-avatar ${isAdmin ? 'admin-avatar' : ''}" onerror="this.onerror=null;this.src='${defaultAvatar}';">
+                        <div class="post-info">
+                            <div class="post-author ${isAdmin ? 'admin-author' : ''}">${post.author}</div>
+                            <div class="post-date">${postDate}</div>
+                        </div>
+                        ${canDelete ? `<button onclick="deletePost(${post.id})" class="delete-btn" style="margin-left: auto; background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;"><i class="fas fa-trash"></i></button>` : ''}
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                `;
+
+                postsContainer.appendChild(postCard);
+            });
+
+            postsContainer.style.display = 'flex';
+        }
+
+        async function handlePost() {
+            const textarea = document.getElementById('postTextarea');
+            const content = textarea.value.trim();
+            
+            if (!content) {
+                alert('Vui lòng nhập nội dung bài viết!');
+                return;
+            }
+
+            if (!currentUser) {
+                alert('Bạn cần đăng nhập để đăng bài!');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:4000/api/news', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title: 'Log Post',
+                        content: content,
+                        category: 'Log'
+                    })
+                });
+
+                if (response.ok) {
+                    textarea.value = '';
+                    document.getElementById('charCount').textContent = '0/1000';
+                    document.getElementById('postForm').style.display = 'none';
+                    document.getElementById('toggleFormBtn').innerHTML = '<i class="fas fa-plus"></i> Tạo bài viết mới';
+                    loadPosts(); // Reload posts
+                } else {
+                    const error = await response.json();
+                    alert('Lỗi: ' + (error.error || 'Không thể đăng bài'));
+                }
+            } catch (error) {
+                console.error('Error posting:', error);
+                alert('Lỗi kết nối! Vui lòng thử lại.');
+            }
+        }
+
+        async function deletePost(postId) {
+            if (!confirm('Bạn có chắc muốn xóa bài viết này?')) return;
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:4000/api/news/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    loadPosts(); // Reload posts
+                } else {
+                    const error = await response.json();
+                    alert('Lỗi: ' + (error.error || 'Không thể xóa bài'));
+                }
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                alert('Lỗi kết nối! Vui lòng thử lại.');
+            }
+        }
+    </script>
+</body>
+
+</html>
