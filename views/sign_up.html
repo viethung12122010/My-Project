@@ -59,12 +59,15 @@
     </div>
 
     <script>
-        const backendBase = 'http://localhost:3001';
+        // Load config for API URLs
+        const script = document.createElement('script');
+        script.src = '/js/config.js';
+        document.head.appendChild(script);
 
         async function doSignup(username, email, password) {
             try {
-                console.log('Sending signup request to:', backendBase + '/api/signup');
-                const res = await fetch(backendBase + '/api/signup', {
+                console.log('Sending signup request to:', getApiUrl('/api/signup'));
+                const res = await fetch(getApiUrl('/api/signup'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password })

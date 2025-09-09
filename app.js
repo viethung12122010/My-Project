@@ -37,7 +37,8 @@ const PORT = process.env.PORT || 3001;
 // For Vercel deployment
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
-        console.log(`MVC App running on http://localhost:${PORT}`);
+        console.log(`🚀 MVC App running on http://localhost:${PORT}`);
+        console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
 }
 
