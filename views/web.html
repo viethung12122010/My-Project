@@ -77,8 +77,8 @@
     </div>
     <header class="header">
         <div class="logo">
-            <a href="#profile" id="avatar-link">
-                <img id="avatar-img" src="../asset/image/Material/user.jpg" alt="Avatar" class="logo-icon">
+            <a href="/profile" id="avatar-link">
+                <img id="avatar-img" src="/asset/image/Material/user.jpg" alt="Avatar" class="logo-icon">
             </a>
             MY PROJECT (Beta 1.1)
         </div>
@@ -88,10 +88,7 @@
                 <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
             </form>
             <a href="#" class="header-icon"><i class="fas fa-home"></i></a>
-            <button class="notification-header-btn" onclick="window.location.href='log.html'">
-                <i class="fas fa-bell"></i>
-                <span class="notification-badge" id="headerNotificationCount">0</span>
-            </button>
+            
             <div id="user-status-container" class="user-menu">
             </div>
             <button class="nav-menu-button" id="navMenuButton">
@@ -102,7 +99,7 @@
     <main>
         <div class="main-section">
             <div class="main-img">
-                <img src="../asset/image/Material/chacchananhlamdc.jpg" alt="Main Illustration">
+                <img src="/asset/image/Material/chacchananhlamdc.jpg" alt="Main Illustration">
             </div>
             <div class="main-content">
                 <span class="coming">🚀 SẮP RA MẮT!</span>
@@ -115,11 +112,7 @@
                 </p>
                 <div class="form-inline">
                     <input type="email" placeholder="Nhập email của bạn" required>
-                    <button type="button" class="notification-btn" onclick="window.location.href='log.html'">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-count" id="notificationCount">0</span>
-                        THÔNG BÁO
-                    </button>
+                    
                 </div>
             </div>
         </div>
@@ -157,22 +150,23 @@
     <div class="nav-overlay" id="navOverlay">
         <button class="close-nav-button" id="closeNavButton">&times;</button>
         <div class="nav-grid">
-            <a href="web.html" class="nav-card">
+            <a href="/" class="nav-card">
                 <i class="fas fa-home"></i>
                 <span>Trang Chủ</span>
             </a>
-            <a href="Sohoc.html" class="nav-card">
+            <a href="/sohoc" class="nav-card">
                 <i class="fas fa-calculator"></i>
                 <span>Số Học</span>
             </a>
-            <a href="Pt.html" class="nav-card">
+            <a href="/pt" class="nav-card">
                 <i class="fas fa-equals"></i>
                 <span>Đại Số</span>
             </a>
-            <a href="Dethi.html" class="nav-card">
+            <a href="/dethi" class="nav-card">
                 <i class="fas fa-book-open"></i>
                 <span>Đề Thi</span>
             </a>
+            
         </div>
     </div>
 
@@ -199,15 +193,18 @@
                     <div id="login-message" class="text-danger mt-2"></div>
                 </div>
                 <div class="modal-footer">
-                    <p class="signup-link w-100 text-center">Don't have an account? <a href="#sign_up">Sign Up</a></p>
+                    <p class="signup-link w-100 text-center">Don't have an account? <a href="/signup">Sign Up</a></p>
                 </div>
             </div>
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth-helper.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             const logoutButtonHtml = `
             <button id="logout-btn" class="sign-btn">Sign Out</button>
             `;
@@ -221,21 +218,21 @@
                 document.body.style.opacity = "1";
             }, 1400);
 
-            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            const currentUser = await AuthHelper.getCurrentUser();
             const userStatusContainer = document.getElementById('user-status-container');
             const avatarLink = document.getElementById('avatar-link');
             const avatarImg = document.getElementById('avatar-img');
 
             if (currentUser) {
-                avatarImg.src = currentUser.avatar || '../asset/image/Material/user.jpg';
-                avatarLink.href = '#profile';
+                avatarImg.src = currentUser.avatar || '/asset/image/Material/user.jpg';
+                avatarLink.href = '/profile';
                 userStatusContainer.innerHTML = logoutButtonHtml;
             } else {
-                avatarImg.src = '../asset/image/Material/user.jpg';
-                avatarLink.href = '#';
+                avatarImg.src = '/asset/image/Material/user.jpg';
+                avatarLink.href = '/profile';
                 userStatusContainer.innerHTML = `
                     <a href="#" class="sign-btn" data-bs-toggle="modal" data-bs-target="#signInModal">Login</a>
-                    <a href="#sign_up" class="sign-btn">Register</a>
+                    <a href="/signup" class="sign-btn">Register</a>
                 `;
             }
 
@@ -243,8 +240,7 @@
             if (logoutButton) {
                 logoutButton.addEventListener('click', function (e) {
                     e.preventDefault();
-                    localStorage.removeItem('current_user');
-                    window.location.reload();
+                    AuthHelper.logout();
                 });
             }
 
@@ -267,8 +263,8 @@
                     const data = await response.json();
 
                     if (response.ok) {
-                        localStorage.setItem('current_user', JSON.stringify(data.user));
                         localStorage.setItem('token', data.token);
+                        AuthHelper.clearUserCache(); // Xóa cache để load lại thông tin user
                         messageDiv.textContent = '';
                         window.location.reload();
                     } else {

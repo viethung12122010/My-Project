@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "title": "Welcome to My Project Log!",
+    "summary": "Chào mừng đến với My Project Log! Đây là nơi mình sẽ chia sẻ những cập nhật, suy nghĩ và thông báo về dự án.",
+    "content": "Chào mừng đến với My Project Log! 🎉\n\nĐây là nơi mình sẽ chia sẻ những cập nhật, suy nghĩ và thông báo về dự án. Các bạn có thể theo dõi để biết:\n\n• Tính năng mới được thêm vào\n• Cập nhật và sửa lỗi\n• Chia sẻ về quá trình phát triển\n• Thông báo quan trọng\n\nCảm ơn các bạn đã quan tâm và ủng hộ My Project! 💪",
+    "image": "",
+    "category": "Log",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "/asset/image/Material/bg_pc.jpg",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "System Update Complete",
+    "summary": "Vừa hoàn thành hệ thống Log mới! Giờ đây mình có thể chia sẻ cập nhật trực tiếp với mọi người.",
+    "content": "Vừa hoàn thành hệ thống Log mới! 🚀\n\nGiờ đây mình có thể chia sẻ cập nhật trực tiếp với mọi người thay vì chỉ gửi email thông báo.\n\nTính năng mới:\n✅ Giao diện giống Facebook\n✅ Chỉ admin mới đăng được\n✅ Mọi người có thể xem và tương tác\n✅ Responsive trên mobile\n\nHy vọng các bạn sẽ thích! 😊",
+    "image": "",
+    "category": "Log",
+    "author": "Admin",
+    "authorId": 1,
+    "authorAvatar": "/asset/image/Material/bg_pc.jpg",
+    "createdAt": "2024-01-15T09:00:00.000Z",
+    "updatedAt": "2024-01-15T09:00:00.000Z"
+  }
+]

@@ -16,8 +16,8 @@
     <div style="width:100vw; height:100vh; display:flex; flex-direction:column;">
         <header class="site-header header container-fluid">
             <div class="logo">
-                <a href="web.html">
-                    <img id="site-logo" src="../asset/image/Material/logohsgs.jpg" alt="logo" class="logo-icon">
+                <a href="/">
+                    <img id="site-logo" src="/asset/image/Material/logohsgs.jpg" alt="logo" class="logo-icon">
                     MY PROJECT
                 </a>
             </div>
@@ -31,11 +31,6 @@
                 <div class="signup-card">
                     <h1 class="signup-title">Create Account</h1>
                     <form id="signUpForm" novalidate>
-                        <div class="avatar-upload-container">
-                            <img id="avatar-preview" src="/asset/image/Material/user.jpg" alt="Avatar Preview">
-                            <input type="file" id="avatar" accept="image/*" style="display: none;">
-                            <label for="avatar" class="avatar-upload-label">Choose Avatar</label>
-                        </div>
                         <div class="input-group">
                             <i class="fas fa-user input-icon"></i>
                             <input type="text" class="form-control" id="username" placeholder="Username" required>
@@ -54,9 +49,9 @@
                         </div>
                         <button type="submit" class="btn-signup">Sign Up</button>
                     </form>
-                    <div id="signup-message" class="error-message"></div>
+                    <div id="signup-message" class="message" style="margin-top: 10px; padding: 10px; border-radius: 5px; display: none;"></div>
                     <div class="signin-link">
-                        <p class="mt-3">Already have an account? <a href="web.html" id="signin-link-from-signup">Sign In</a></p>
+                        <p class="mt-3">Already have an account? <a href="/signin" id="signin-link-from-signup">Sign In</a></p>
                     </div>
                 </div>
             </div>
@@ -66,43 +61,25 @@
     <script>
         const backendBase = 'http://localhost:3001';
 
-        document.getElementById('avatar').addEventListener('change', function(event) {
-            const [file] = event.target.files;
-            if (file) {
-                document.getElementById('avatar-preview').src = URL.createObjectURL(file);
-            }
-        });
-
         async function doSignup(username, email, password) {
             try {
+                console.log('Sending signup request to:', backendBase + '/api/signup');
                 const res = await fetch(backendBase + '/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password })
                 });
+                
+                console.log('Response status:', res.status);
                 const data = await res.json();
+                console.log('Response data:', data);
+                
                 if (!res.ok) throw new Error(data.error || 'Signup failed');
-                return { success: true, user: data.user, token: data.token };
+                
+                localStorage.setItem('token', data.token);
+                return { success: true, data };
             } catch (err) {
-                return { success: false, message: err.message };
-            }
-        }
-
-        async function uploadAvatar(token, avatarFile) {
-            const formData = new FormData();
-            formData.append('avatar', avatarFile);
-            try {
-                const res = await fetch(backendBase + '/api/upload-avatar', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: formData
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || 'Avatar upload failed');
-                return { success: true, url: data.url };
-            } catch (err) {
+                console.error('Signup error:', err);
                 return { success: false, message: err.message };
             }
         }
@@ -113,52 +90,77 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const avatarFile = document.getElementById('avatar').files[0];
             const messageDiv = document.getElementById('signup-message');
 
+            // Clear previous messages
+            messageDiv.textContent = '';
+            messageDiv.style.display = 'none';
+            
+            // Validation
             if (!username || !email || !password || !confirmPassword) {
-                messageDiv.textContent = 'Please fill out all fields.';
+                messageDiv.textContent = 'Vui lòng điền đầy đủ thông tin.';
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
                 return;
             }
             if (password.length < 6) {
-                messageDiv.textContent = 'Password must be at least 6 characters long.';
+                messageDiv.textContent = 'Mật khẩu phải có ít nhất 6 ký tự.';
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
                 return;
             }
             if (password !== confirmPassword) {
-                messageDiv.textContent = 'Passwords do not match.';
+                messageDiv.textContent = 'Mật khẩu xác nhận không khớp.';
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
                 return;
             }
 
-            const signupResult = await doSignup(username, email, password);
+            // Show loading state
+            const submitBtn = document.querySelector('.btn-signup');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Đang đăng ký...';
+            submitBtn.disabled = true;
 
-            if (signupResult.success) {
-                let user = signupResult.user;
-                const token = signupResult.token;
-
-                if (avatarFile) {
-                    const uploadResult = await uploadAvatar(token, avatarFile);
-                    if (uploadResult.success) {
-                        user.avatar = uploadResult.url;
-                    } else {
-                        console.warn('Avatar upload failed:', uploadResult.message);
-                    }
-                }
-
-                localStorage.setItem('current_user', JSON.stringify(user));
-                localStorage.setItem('token', token);
-
-                localStorage.setItem('openSignInModal', 'true');
-                window.location.href = 'web.html';
+            console.log('Attempting signup with:', { username, email });
+            const result = await doSignup(username, email, password);
+            
+            // Reset button state
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
+            if (result.success) {
+                messageDiv.textContent = 'Đăng ký thành công! Đang chuyển hướng...';
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
             } else {
-                messageDiv.textContent = signupResult.message || 'An unknown error occurred.';
+                messageDiv.textContent = result.message || 'Có lỗi xảy ra, vui lòng thử lại.';
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+                console.error('Signup error:', result.message);
             }
         });
 
         document.getElementById('signin-link-from-signup').addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.setItem('openSignInModal', 'true');
-            window.location.href = 'web.html'; 
+            window.location.href = '/'; 
         });
+
+        
 
     </script>
 </body>

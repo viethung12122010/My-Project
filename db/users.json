@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "username": "test",
+    "email": "test@test.com",
+    "password": "$2a$08$EwlCPTrsXQlgo2VP13DFD.9Y1rLCMmqLa37WusGgkgU2q/Il1poky",
+    "avatar": ""
+  },
+  {
+    "id": 2,
+    "username": "lviethung6a5@gmail.com",
+    "email": "lviethung6a5@gmail.com",
+    "password": "$2a$08$ywZZ3cbphH7jE76gJiEZO.vy.sQMxxHKCoTx2mCJBopWZ4yhGGZli",
+    "avatar": "/uploads/1757332979225.jpg"
+  },
+  {
+    "id": 3,
+    "username": "KiraMC",
+    "email": "vheogaming@gmail.com",
+    "password": "$2a$08$udNzX9254ARklFvQO3qv9O10hACoqzOcqYupQuZGtA6M7WERyKy0i",
+    "avatar": ""
+  }
+]
