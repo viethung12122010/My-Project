@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "install:deps": "npm install",
-    "build": "echo 'Build completed'",
-    "postinstall": "echo 'Dependencies installed'"
+    "build": "npm install",
+    "vercel-build": "echo 'Vercel build completed'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
