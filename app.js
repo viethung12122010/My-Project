@@ -20,8 +20,20 @@ app.use('/asset', express.static(path.join(__dirname, 'views/asset')));
 app.use('/js', express.static(path.join(__dirname, 'views/js')));
 
 // Storage for uploaded avatars
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+// Use /tmp directory in production (Vercel) or uploads directory in development
+const uploadsDir = process.env.NODE_ENV === 'production' 
+    ? '/tmp/uploads' 
+    : path.join(__dirname, 'uploads');
+
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync(uploadsDir)) {
+    try {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    } catch (error) {
+        console.warn('Could not create uploads directory:', error.message);
+    }
+}
+
 app.use('/uploads', express.static(uploadsDir));
 
 // Import routes

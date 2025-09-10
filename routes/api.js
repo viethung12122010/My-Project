@@ -14,8 +14,13 @@ const examController = new ExamController();
 const userModel = new User();
 
 // Multer setup for file uploads
+// Use /tmp directory in production (Vercel) or uploads directory in development
+const uploadsDir = process.env.NODE_ENV === 'production' 
+    ? '/tmp/uploads' 
+    : path.join(__dirname, '../uploads');
+
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../uploads'),
+    destination: uploadsDir,
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
     }

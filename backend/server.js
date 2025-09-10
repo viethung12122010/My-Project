@@ -12,8 +12,20 @@ app.use(cors());
 app.use(express.json());
 
 // Storage for uploaded avatars (serve /uploads)
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+// Use /tmp directory in production (Vercel) or uploads directory in development
+const uploadsDir = process.env.NODE_ENV === 'production' 
+    ? '/tmp/uploads' 
+    : path.join(__dirname, 'uploads');
+
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync(uploadsDir)) {
+    try {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    } catch (error) {
+        console.warn('Could not create uploads directory:', error.message);
+    }
+}
+
 app.use('/uploads', express.static(uploadsDir));
 
 // Simple JSON file storage
@@ -74,7 +86,7 @@ const upload = multer({ storage });
 
 app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'no file' });
-  const url = `/backend/uploads/${req.file.filename}`;
+  const url = `/uploads/${req.file.filename}`;
   const user = users.find(u => u.id === req.user.id);
   if (user) { user.avatar = url; writeJSON(USERS_FILE, users); }
   res.json({ url });
