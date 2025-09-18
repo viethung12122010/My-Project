@@ -1,0 +1,6 @@
+@import url('style.css');
+
+/* Đề thi specific styles */
+.Dethi .exercise-card {
+    border-left: 4px solid #4ecdc4;
+}
