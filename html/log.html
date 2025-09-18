@@ -460,7 +460,7 @@
             noPosts.style.display = 'none';
 
             try {
-                const response = await fetch('http://localhost:4000/api/news?limit=50');
+                const response = await fetch('/api/news?limit=50');
                 const data = await response.json();
                 loading.style.display = 'none';
                 if (data.news && data.news.length > 0) {
@@ -529,7 +529,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:4000/api/news', {
+                const response = await fetch('/api/news', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -563,7 +563,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:4000/api/news/${postId}`, {
+                const response = await fetch(`/api/news/${postId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`

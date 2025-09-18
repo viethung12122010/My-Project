@@ -1,23 +1,41 @@
 {
-  "name": "my-project-mvc",
+  "name": "math-learning-website",
   "version": "1.0.0",
-  "description": "MVC Application - Gộp backend và frontend thành một ứng dụng",
-  "main": "app.js",
+  "description": "Website học toán với các bài tập Số học, Đề thi, và Phương trình",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "build": "npm install",
-    "vercel-build": "echo 'Vercel build completed'"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "build": "echo 'Build completed'",
+    "test": "echo 'No test specified'"
   },
+  "keywords": [
+    "math",
+    "education",
+    "learning",
+    "vietnamese",
+    "số học",
+    "đề thi",
+    "phương trình"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.6.1",
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
   }
 }

@@ -11,6 +11,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files
+app.use('/css', express.static(path.join(__dirname, '..', 'css')));
+app.use('/html', express.static(path.join(__dirname, '..', 'html')));
+app.use('/asset', express.static(path.join(__dirname, '..', 'asset')));
+app.use('/js', express.static(path.join(__dirname, '..', 'js')));
+
+// Serve favicon.ico
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'favicon.ico'));
+});
+
+// Add security headers to fix CSP issues
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "img-src 'self' data: blob:; " +
+    "connect-src 'self' http://localhost:* https://cdn.jsdelivr.net; " +
+    "media-src 'self';"
+  );
+  next();
+});
+
 // Storage for uploaded avatars (serve /uploads)
 // Use /tmp directory in production (Vercel) or uploads directory in development
 const uploadsDir = process.env.NODE_ENV === 'production' 
@@ -288,5 +313,19 @@ Hy vọng các bạn sẽ thích! 😊`,
   writeJSON(NEWS_FILE, news);
 }
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log('Backend listening on', PORT));
+// Root route to serve main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'html', 'web.html'));
+});
+
+const PORT = process.env.PORT || 8080;
+
+// For Vercel, export the app; for local development, start the server
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log('✅ Backend API ready!');
+  });
+}

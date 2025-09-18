@@ -2,5 +2,5 @@
 
 /* Đề thi specific styles */
 .Dethi .exercise-card {
-    border-left: 4px solid #4ecdc4;
+    border-left: 4px solid var(--primary-color);
 }

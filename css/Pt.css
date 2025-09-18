@@ -2,5 +2,5 @@
 
 /* Phương trình specific styles */
 .Pt .exercise-card {
-    border-left: 4px solid #45b7d1;
+    border-left: 4px solid var(--primary-color);
 }

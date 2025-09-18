@@ -1,0 +1,5 @@
+Copy your original images to this asset folder structure.
+
+The website is optimized and ready - just needs the original images restored.
+
+Check RESTORE-ASSETS.md for the complete list of required files.

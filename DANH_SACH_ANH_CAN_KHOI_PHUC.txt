@@ -1,0 +1,81 @@
+📋 DANH SÁCH ẢNH CẦN KHÔI PHỤC
+
+=== MATERIAL (7 files) ===
+1. logohsgs.jpg
+2. user.jpg  
+3. bg_pc.jpg
+4. chacchananhlamdc.jpg
+5. menu-button.jpg
+6. minecraft-cherry.gif
+7. spacebg.gif
+
+=== SỐ HỌC - ĐỒNG DƯ (8 files) ===
+8. Dongdu1.jpg
+9. Dongdu2.jpg
+10. Dongdu3.jpg
+11. Dongdu4.jpg
+12. Dongdu5.jpg
+13. Dongdu6.jpg
+14. Dongdu7_1.jpg
+15. Dongdu7_2.jpg
+
+=== SỐ HỌC - GCD (3 files) ===
+16. GCD_1.jpg
+17. GCD_2.jpg
+18. GCD_3.jpg
+
+=== SỐ HỌC - HỮU TỈ (4 files) ===
+19. huuti(1).jpg
+20. huuti(2).jpg
+21. huuti(3).jpg
+22. huuti(4).jpg
+
+=== SỐ HỌC - LÙI VÔ HẠN (1 file) ===
+23. Luivohan.jpg
+
+=== SỐ HỌC - PHẦN NGUYÊN (2 files) ===
+24. Phannguyen_1.jpg
+25. Phannguyen_2.jpg
+
+=== SỐ HỌC - PTNN (3 files) ===
+26. PTNN.jpg
+27. PTNN(Lim)(1).jpg
+28. PTNN(Lim)(2).jpg
+
+=== ĐỀ THI - KHTN (12 files) ===
+29. KHTN_2009-2010_v1.jpg
+30. KHTN_2009-2010_v2.jpg
+31. KHTN_2010-2011_v1.jpg
+32. KHTN_2010-2011_v2.jpg
+33. KHTN_2011-2012_v1.jpg
+34. KHTN_2011-2012_v2.jpg
+35. KHTN_2012-2013_v1.jpg
+36. KHTN_2012-2013_v2.jpg
+37. KHTN_2018-2019_V1.jpg
+38. KHTN_2018-2019_V2.jpg
+39. KHTN_2019-2020_v1.jpg
+40. KHTN_2019-2020_v2.jpg
+
+=== ĐỀ THI - LIM (4 files) ===
+41. Lim_dot_2.jpg
+42. Lim_dot_2_2.jpg
+43. Lim_dot_3.jpg
+44. Lim_dot_3_2.jpg
+
+=== PHƯƠNG TRÌNH - PT (3 files) ===
+45. PT1_1.jpg
+46. PT1_2.jpg
+47. PT2.jpg
+
+=== PHƯƠNG TRÌNH - HPT (3 files) ===
+48. HPT1.jpg
+49. HPT2.jpg
+50. HPT3.jpg
+
+=== VIDEO (2 files) ===
+51. intro1.mp4
+52. intro2.mp4
+
+🎯 TỔNG CỘNG: 52 FILES
+- 50 ảnh (.jpg/.gif)
+- 2 video (.mp4)

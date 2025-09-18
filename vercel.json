@@ -8,8 +8,17 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/html/web.html"
     }
-  ]
+  ],
+  "functions": {
+    "app.js": {
+      "maxDuration": 10
+    }
+  }
 }
