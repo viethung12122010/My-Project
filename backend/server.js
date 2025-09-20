@@ -116,21 +116,67 @@ function auth(req, res, next) {
 const storage = multer.diskStorage({ destination: uploadsDir, filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)) });
 const upload = multer({ storage });
 
-app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ error: 'no file' });
-    const url = `/uploads/${req.file.filename}`;
-    const user = users.find(u => u.id === req.user.id);
-    if (user) { 
-      user.avatar = url; 
-      writeJSON(USERS_FILE, users); 
-    }
-    console.log(`Avatar uploaded successfully for user ${req.user.id}: ${url}`);
-    res.json({ url });
-  } catch (error) {
-    console.error('Upload processing error:', error);
-    res.status(500).json({ error: 'Upload failed', details: error.message });
+app.post('/api/upload-avatar', (req, res) => {
+  console.log('Upload endpoint hit:', {
+    headers: Object.keys(req.headers),
+    hasAuth: !!req.headers.authorization,
+    contentType: req.headers['content-type']
+  });
+  
+  // Apply auth middleware manually with logging
+  const header = req.headers.authorization;
+  if (!header) {
+    console.log('AUTH FAILED: No authorization header');
+    return res.status(401).json({ error: 'no token' });
   }
+  
+  const parts = header.split(' ');
+  if (parts.length !== 2) {
+    console.log('AUTH FAILED: Bad token format');
+    return res.status(401).json({ error: 'bad token' });
+  }
+  
+  let user;
+  try { 
+    const payload = jwt.verify(parts[1], JWT_SECRET); 
+    req.user = payload;
+    user = users.find(u => u.id === payload.id);
+    console.log('AUTH SUCCESS: User authenticated', { userId: payload.id, userExists: !!user });
+  } catch (e) { 
+    console.error('JWT verification error:', e.message);
+    return res.status(401).json({ error: 'invalid token', details: e.message }); 
+  }
+  
+  // Apply multer upload with logging
+  upload.single('avatar')(req, res, (err) => {
+    if (err) {
+      console.error('Multer error:', err);
+      return res.status(400).json({ error: err.message });
+    }
+    
+    console.log('Multer success:', {
+      hasFile: !!req.file,
+      filename: req.file?.filename,
+      size: req.file?.size
+    });
+    
+    try {
+      if (!req.file) return res.status(400).json({ error: 'no file' });
+      const url = `/uploads/${req.file.filename}`;
+      
+      if (user) { 
+        user.avatar = url; 
+        writeJSON(USERS_FILE, users); 
+        console.log(`Avatar updated in database for user ${req.user.id}: ${url}`);
+      }
+      
+      console.log(`Avatar uploaded successfully for user ${req.user.id}: ${url}`);
+      res.json({ url });
+    } catch (error) {
+      console.error('Upload processing error:', error);
+      res.status(500).json({ error: 'Upload failed', details: error.message });
+    }
+  });
 });
 
 // Exams endpoints (basic)
