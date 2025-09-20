@@ -116,6 +116,7 @@
                         messageDiv.textContent = 'Avatar updated successfully!';
                         messageDiv.className = 'alert alert-success mt-3';
                         messageDiv.classList.remove('d-none');
+                        window.location.reload(); // Reload the page to ensure consistent display
                     } else {
                         throw new Error(data.error || 'Failed to upload avatar.');
                     }
