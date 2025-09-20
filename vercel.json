@@ -1,47 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "app.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/asset/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/html/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/",
-      "dest": "/app.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app.js"
-    }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
