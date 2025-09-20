@@ -11,6 +11,9 @@ function initializeUser() {
     const headerUser = document.getElementById('headerUser');
     const avatarWrap = document.getElementById('avatarWrap');
     
+    console.log('initializeUser: currentUser', currentUser);
+    console.log('initializeUser: currentUser.avatar', currentUser ? currentUser.avatar : 'N/A');
+
     if (currentUser && headerAvatar && headerUser) {
         updateAvatarDisplay(currentUser.avatar);
         headerUser.textContent = currentUser.email || 'Guest';
