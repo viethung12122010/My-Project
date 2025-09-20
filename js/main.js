@@ -14,20 +14,20 @@ function initializeMainPage() {
     // User status management
     const currentUser = JSON.parse(localStorage.getItem('current_user'));
     const userStatusContainer = document.getElementById('user-status-container');
-    const avatarLink = document.getElementById('avatar-link');
-    const avatarImg = document.getElementById('avatar-img');
+    // const avatarLink = document.getElementById('avatar-link'); // Removed, handled by common.js
+    // const avatarImg = document.getElementById('avatar-img'); // Removed, handled by common.js
 
     const logoutButtonHtml = `
         <button id="logout-btn" class="sign-btn">Sign Out</button>
     `;
 
     if (currentUser) {
-        avatarImg.src = currentUser.avatar || '../asset/image/Material/user.jpg';
-        avatarLink.href = '/html/profile.html';
+        // avatarImg.src = currentUser.avatar || '../asset/image/Material/user.jpg'; // Removed, handled by common.js
+        // avatarLink.href = '/html/profile.html'; // Removed, handled by common.js
         userStatusContainer.innerHTML = logoutButtonHtml;
     } else {
-        avatarImg.src = '../asset/image/Material/user.jpg';
-        avatarLink.href = '#';
+        // avatarImg.src = '../asset/image/Material/user.jpg'; // Removed, handled by common.js
+        // avatarLink.href = '#'; // Removed, handled by common.js
         userStatusContainer.innerHTML = `
             <a href="#" class="sign-btn" data-bs-toggle="modal" data-bs-target="#signInModal">Login</a>
             <a href="#sign_up" class="sign-btn">Register</a>
