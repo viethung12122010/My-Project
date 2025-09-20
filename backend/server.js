@@ -60,11 +60,33 @@ if (!fs.existsSync(uploadsDir)) {
 app.use('/uploads', express.static(uploadsDir));
 
 // Simple JSON file storage
-const DB_DIR = path.join(__dirname, 'db');
-if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+const isProduction = process.env.NODE_ENV === 'production';
+const DB_DIR = isProduction ? '/tmp/db' : path.join(__dirname, 'db');
+
+// Create DB directory if it doesn't exist
+if (!fs.existsSync(DB_DIR)) {
+    fs.mkdirSync(DB_DIR, { recursive: true });
+}
+
+// Define file paths
 const USERS_FILE = path.join(DB_DIR, 'users.json');
 const EXAMS_FILE = path.join(DB_DIR, 'exams.json');
 const NEWS_FILE = path.join(DB_DIR, 'news.json');
+
+// In production, copy original db files to /tmp if they don't exist
+if (isProduction) {
+    const originalDbDir = path.join(__dirname, 'db');
+    const filesToCopy = ['users.json', 'exams.json', 'news.json'];
+    filesToCopy.forEach(file => {
+        const tmpPath = path.join(DB_DIR, file);
+        if (!fs.existsSync(tmpPath)) {
+            const originalPath = path.join(originalDbDir, file);
+            if (fs.existsSync(originalPath)) {
+                fs.copyFileSync(originalPath, tmpPath);
+            }
+        }
+    });
+}
 
 function readJSON(file, defaultValue) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { return defaultValue; }
