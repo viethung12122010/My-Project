@@ -1,5 +1,9 @@
 // Common JavaScript functionality for all pages
 
+function getBaseURL() {
+    return window.location.origin;
+}
+
 // User management functions
 function initializeUser() {
     const currentUser = JSON.parse(localStorage.getItem('current_user'));
@@ -8,18 +12,50 @@ function initializeUser() {
     const avatarWrap = document.getElementById('avatarWrap');
     
     if (currentUser && headerAvatar && headerUser) {
-        const avatarUrl = currentUser.avatar ? currentUser.avatar : '../asset/image/Material/user.jpg';
-        headerAvatar.src = avatarUrl;
+        updateAvatarDisplay(currentUser.avatar);
         headerUser.textContent = currentUser.email || 'Guest';
     }
     
     if (avatarWrap) {
         avatarWrap.addEventListener('click', () => {
-            window.location.href = currentUser ? 'profile.html' : 'sign_up.html';
+            window.location.href = currentUser ? '/html/profile.html' : '/html/sign_up.html';
         });
     }
     
     return currentUser;
+}
+
+function updateAvatarDisplay(avatarPath) {
+    const headerAvatar = document.getElementById('headerAvatar');
+    const profileAvatar = document.getElementById('profile-avatar');
+    const defaultAvatar = '../asset/image/Material/user.jpg';
+
+    let avatarUrl;
+    if (avatarPath) {
+        if (avatarPath.startsWith('http')) {
+            avatarUrl = avatarPath;
+        } else {
+            avatarUrl = `${getBaseURL()}${avatarPath}`;
+        }
+    } else {
+        avatarUrl = defaultAvatar;
+    }
+
+    if (headerAvatar) {
+        headerAvatar.src = avatarUrl;
+    }
+    if (profileAvatar) {
+        profileAvatar.src = avatarUrl;
+    }
+}
+
+function updateUserAvatar(newAvatarUrl) {
+    let user = JSON.parse(localStorage.getItem('current_user'));
+    if (user) {
+        user.avatar = newAvatarUrl;
+        localStorage.setItem('current_user', JSON.stringify(user));
+        updateAvatarDisplay(newAvatarUrl);
+    }
 }
 
 // Navigation overlay functions
@@ -130,5 +166,6 @@ window.CommonJS = {
     loadNotificationCount,
     updateNotificationCount,
     showImageInModal,
-    initializeCommon
+    initializeCommon,
+    updateUserAvatar
 };
