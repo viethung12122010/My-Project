@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Serve static files
 app.use('/css', express.static(path.join(__dirname, '..', 'css')));
-app.use(express.static(path.join(__dirname, '..', 'html')));
+app.use('/html', express.static(path.join(__dirname, '..', 'html')));
 app.get('/asset/*', (req, res) => {
   const requestedPath = req.params[0];
   const filePath = path.join(__dirname, '..', 'asset', requestedPath);
