@@ -8,7 +8,7 @@ function initializeUser() {
     const avatarWrap = document.getElementById('avatarWrap');
     
     if (currentUser && headerAvatar && headerUser) {
-        const avatarUrl = currentUser.avatar ? `http://localhost:9000${currentUser.avatar}` : '../asset/image/Material/user.jpg';
+        const avatarUrl = currentUser.avatar ? currentUser.avatar : '../asset/image/Material/user.jpg';
         headerAvatar.src = avatarUrl;
         headerUser.textContent = currentUser.email || 'Guest';
     }

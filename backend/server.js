@@ -14,7 +14,20 @@ app.use(express.json());
 // Serve static files
 app.use('/css', express.static(path.join(__dirname, '..', 'css')));
 app.use('/html', express.static(path.join(__dirname, '..', 'html')));
-app.use('/asset', express.static(path.join(__dirname, '..', 'asset')));
+app.get('/asset/*', (req, res) => {
+  const requestedPath = req.params[0];
+  const filePath = path.join(__dirname, '..', 'asset', requestedPath);
+  
+  console.log(`[ASSET] Attempting to serve file for path: ${requestedPath}`);
+  console.log(`[ASSET] Full path being checked: ${filePath}`);
+  console.log(`[ASSET] Does file exist? ${fs.existsSync(filePath)}`);
+
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('Asset not found');
+  }
+});
 app.use('/js', express.static(path.join(__dirname, '..', 'js')));
 
 // Serve favicon.ico
@@ -57,7 +70,20 @@ if (!fs.existsSync(uploadsDir)) {
     }
 }
 
-app.use('/uploads', express.static(uploadsDir));
+app.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(uploadsDir, filename);
+  
+  console.log(`[UPLOADS] Attempting to serve file for filename: ${filename}`);
+  console.log(`[UPLOADS] Full path being checked: ${filePath}`);
+  console.log(`[UPLOADS] Does file exist? ${fs.existsSync(filePath)}`);
+
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('File not found');
+  }
+});
 
 // Simple JSON file storage
 const isProduction = process.env.NODE_ENV === 'production';
