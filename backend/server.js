@@ -42,6 +42,12 @@ const uploadsDir = process.env.NODE_ENV === 'production'
     ? '/tmp/uploads' 
     : path.join(__dirname, 'uploads');
 
+console.log('Upload configuration:', {
+    NODE_ENV: process.env.NODE_ENV,
+    uploadsDir: uploadsDir,
+    uploadsExists: fs.existsSync(uploadsDir)
+});
+
 // Create uploads directory if it doesn't exist
 if (!fs.existsSync(uploadsDir)) {
     try {

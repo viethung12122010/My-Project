@@ -60,7 +60,8 @@
             const token = localStorage.getItem('token');
 
             if (user && token) {
-                avatarImg.src = user.avatar || '../asset/image/Material/user.jpg';
+                const avatarUrl = user.avatar ? `http://localhost:9000${user.avatar}` : '../asset/image/Material/user.jpg';
+                avatarImg.src = avatarUrl;
                 usernameInput.value = user.username;
                 emailInput.value = user.email;
             } else {
@@ -101,7 +102,7 @@
                 formData.append('avatar', newAvatarFile);
 
                 try {
-                    const response = await fetch('/api/upload-avatar', {
+                    const response = await fetch('http://localhost:9000/api/upload-avatar', {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${token}`

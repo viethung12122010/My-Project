@@ -8,7 +8,8 @@ function initializeUser() {
     const avatarWrap = document.getElementById('avatarWrap');
     
     if (currentUser && headerAvatar && headerUser) {
-        headerAvatar.src = currentUser.avatar || '../asset/image/Material/user.jpg';
+        const avatarUrl = currentUser.avatar ? `http://localhost:9000${currentUser.avatar}` : '../asset/image/Material/user.jpg';
+        headerAvatar.src = avatarUrl;
         headerUser.textContent = currentUser.email || 'Guest';
     }
     
@@ -51,7 +52,7 @@ function initializeNavigation() {
 // Notification functions
 async function loadNotificationCount() {
     try {
-        const response = await fetch('/api/news?category=Log&limit=100');
+        const response = await fetch('http://localhost:9000/api/news?category=Log&limit=100');
         const data = await response.json();
         
         if (data.news) {

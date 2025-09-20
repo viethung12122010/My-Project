@@ -399,7 +399,8 @@
             const defaultAvatar = '../asset/image/Material/user.jpg';
 
             if (currentUser) {
-                headerAvatar.src = currentUser.avatar || defaultAvatar;
+                const avatarUrl = currentUser.avatar ? `http://localhost:9000${currentUser.avatar}` : defaultAvatar;
+                headerAvatar.src = avatarUrl;
                 headerUser.textContent = currentUser.email || 'Guest';
             } else {
                 headerAvatar.src = defaultAvatar;
@@ -461,7 +462,7 @@
             noPosts.style.display = 'none';
 
             try {
-                const response = await fetch('/api/news?limit=50');
+                const response = await fetch('http://localhost:9000/api/news?limit=50');
                 const data = await response.json();
                 loading.style.display = 'none';
                 if (data.news && data.news.length > 0) {
@@ -494,7 +495,10 @@
                 
                 // Sử dụng ảnh nền cho admin
                 const adminAvatar = '../asset/image/Material/bg_pc.jpg';
-                const avatarSrc = isAdmin ? adminAvatar : (post.authorAvatar || defaultAvatar);
+                let avatarSrc = isAdmin ? adminAvatar : defaultAvatar;
+                if (!isAdmin && post.authorAvatar) {
+                    avatarSrc = `http://localhost:9000${post.authorAvatar}`;
+                }
 
                 postCard.innerHTML = `
                     <div class="post-header ${isAdmin ? 'admin-header' : ''}">
@@ -530,7 +534,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('/api/news', {
+                const response = await fetch('http://localhost:9000/api/news', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -564,7 +568,7 @@
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`/api/news/${postId}`, {
+                const response = await fetch(`http://localhost:9000/api/news/${postId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`
