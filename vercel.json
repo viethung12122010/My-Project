@@ -12,8 +12,36 @@
       "dest": "/app.js"
     },
     {
+      "src": "/css/(.*)",
+      "dest": "/app.js"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/app.js"
+    },
+    {
+      "src": "/asset/(.*)",
+      "dest": "/app.js"
+    },
+    {
+      "src": "/html/(.*)",
+      "dest": "/app.js"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "/app.js"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/app.js"
+    },
+    {
       "src": "/",
-      "dest": "/html/web.html"
+      "dest": "/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
     }
   ]
 }
