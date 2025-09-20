@@ -321,7 +321,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 8080;
 
 // For Vercel, export the app; for local development, start the server
-if (process.env.VERCEL) {
+if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
   module.exports = app;
 } else {
   app.listen(PORT, () => {
