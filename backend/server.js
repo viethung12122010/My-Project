@@ -102,7 +102,14 @@ function auth(req, res, next) {
   if (!header) return res.status(401).json({ error: 'no token' });
   const parts = header.split(' ');
   if (parts.length !== 2) return res.status(401).json({ error: 'bad token' });
-  try { const payload = jwt.verify(parts[1], JWT_SECRET); req.user = payload; next(); } catch (e) { res.status(401).json({ error: 'invalid token' }); }
+  try { 
+    const payload = jwt.verify(parts[1], JWT_SECRET); 
+    req.user = payload; 
+    next(); 
+  } catch (e) { 
+    console.error('JWT verification error:', e.message);
+    res.status(401).json({ error: 'invalid token', details: e.message }); 
+  }
 }
 
 // Upload avatar
@@ -110,11 +117,20 @@ const storage = multer.diskStorage({ destination: uploadsDir, filename: (req, fi
 const upload = multer({ storage });
 
 app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'no file' });
-  const url = `/uploads/${req.file.filename}`;
-  const user = users.find(u => u.id === req.user.id);
-  if (user) { user.avatar = url; writeJSON(USERS_FILE, users); }
-  res.json({ url });
+  try {
+    if (!req.file) return res.status(400).json({ error: 'no file' });
+    const url = `/uploads/${req.file.filename}`;
+    const user = users.find(u => u.id === req.user.id);
+    if (user) { 
+      user.avatar = url; 
+      writeJSON(USERS_FILE, users); 
+    }
+    console.log(`Avatar uploaded successfully for user ${req.user.id}: ${url}`);
+    res.json({ url });
+  } catch (error) {
+    console.error('Upload processing error:', error);
+    res.status(500).json({ error: 'Upload failed', details: error.message });
+  }
 });
 
 // Exams endpoints (basic)
