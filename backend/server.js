@@ -74,13 +74,29 @@ app.get('/uploads/:filename', (req, res) => {
   const { filename } = req.params;
   const filePath = path.join(uploadsDir, filename);
   
-  console.log(`[UPLOADS] Attempting to serve file for filename: ${filename}`);
-  console.log(`[UPLOADS] Full path being checked: ${filePath}`);
-  console.log(`[UPLOADS] Does file exist? ${fs.existsSync(filePath)}`);
+  console.log(`[UPLOADS] Request for filename: ${filename}`);
+  console.log(`[UPLOADS] Checking path: ${filePath}`);
+
+  try {
+    const tmpContents = fs.readdirSync('/tmp');
+    console.log('[UPLOADS] Contents of /tmp:', tmpContents);
+    
+    if (fs.existsSync(uploadsDir)) {
+      const uploadsContents = fs.readdirSync(uploadsDir);
+      console.log(`[UPLOADS] Contents of ${uploadsDir}:`, uploadsContents);
+    } else {
+      console.log(`[UPLOADS] Directory ${uploadsDir} does not exist.`);
+    }
+
+  } catch (e) {
+    console.error('[UPLOADS] Error reading /tmp directory:', e);
+  }
 
   if (fs.existsSync(filePath)) {
+    console.log(`[UPLOADS] SUCCESS: File found. Serving ${filename}.`);
     res.sendFile(filePath);
   } else {
+    console.log(`[UPLOADS] FAILURE: File not found at ${filePath}.`);
     res.status(404).send('File not found');
   }
 });
