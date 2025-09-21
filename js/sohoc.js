@@ -201,8 +201,58 @@ function renderSohocCards() {
     });
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-    CommonJS.initializeCommon();
-    renderSohocCards();
-});
+// Sohoc page - optimized
+(function() {
+    'use strict';
+
+    function renderSohocCards() {
+        const exercises = getSohocExercises();
+        
+        // Use optimized exercise cards renderer
+        if (window.ExerciseCards) {
+            window.ExerciseCards.addAnimationCSS();
+            window.ExerciseCards.render(exercises, SOHOC_STORAGE_KEY);
+        } else {
+            // Fallback to basic rendering
+            renderBasicCards(exercises);
+        }
+    }
+
+    function renderBasicCards(exercises) {
+        const cardsRoot = document.getElementById('cards');
+        if (!cardsRoot) return;
+
+        exercises.forEach(ex => {
+            const card = document.createElement('article');
+            card.className = `exercise-card ${ex.difficulty}`;
+            card.innerHTML = `
+                <div class="thumb">
+                    <img src="${ex.image}" alt="${ex.title}" loading="lazy">
+                </div>
+                <div class="meta">
+                    <div class="badge-diff ${ex.difficulty}">${ex.difficulty}</div>
+                </div>
+                <h3 class="title">${ex.title}</h3>
+                <p class="desc">${ex.summary}</p>
+                <div class="card-actions">
+                    <button class="play-btn">Mở Đề</button>
+                    <button class="btn-ghost"><i class="fa fa-eye"></i> Xem Ảnh</button>
+                </div>
+            `;
+            cardsRoot.appendChild(card);
+        });
+    }
+
+    // Auto-initialize when ready
+    if (window.ExerciseCards) {
+        renderSohocCards();
+    } else {
+        // Wait for ExerciseCards to load
+        const checkReady = setInterval(() => {
+            if (window.ExerciseCards) {
+                clearInterval(checkReady);
+                renderSohocCards();
+            }
+        }, 50);
+    }
+})();

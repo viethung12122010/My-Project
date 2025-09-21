@@ -234,6 +234,81 @@ body {
     border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+/* Loading spinner for avatar upload */
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(37, 117, 252, 0.3);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: avatarSpin 1s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-container.loading::before {
+    opacity: 1;
+}
+
+.avatar-container.loading .avatar-img {
+    opacity: 0.5;
+}
+
+@keyframes avatarSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Button loading states */
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn .fa-spinner {
+    animation: avatarSpin 1s linear infinite;
+}
+
+#change-avatar-btn {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+}
+
+#change-avatar-btn:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+}
+
+#save-btn {
+    position: relative;
+    overflow: hidden;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .container {

@@ -14,9 +14,14 @@ function initializeUser() {
     console.log('initializeUser: currentUser', currentUser);
     console.log('initializeUser: currentUser.avatar', currentUser ? currentUser.avatar : 'N/A');
 
-    if (currentUser && headerAvatar && headerUser) {
-        updateAvatarDisplay(currentUser.avatar);
-        headerUser.textContent = currentUser.email || 'Guest';
+    // Always update avatar display, even if no user is logged in
+    if (headerAvatar) {
+        updateAvatarDisplay(currentUser ? currentUser.avatar : null);
+    }
+    
+    // Update user text
+    if (headerUser) {
+        headerUser.textContent = currentUser ? (currentUser.email || currentUser.username || 'User') : 'Guest';
     }
     
     if (avatarWrap) {
@@ -31,7 +36,14 @@ function initializeUser() {
 function updateAvatarDisplay(avatarPath) {
     const headerAvatar = document.getElementById('headerAvatar');
     const profileAvatar = document.getElementById('profile-avatar');
-    const defaultAvatar = '../asset/image/Material/user.jpg';
+    
+    // Determine the correct default avatar path based on current location
+    let defaultAvatar;
+    if (window.location.pathname.includes('/html/')) {
+        defaultAvatar = '../asset/image/Material/user.jpg';
+    } else {
+        defaultAvatar = 'asset/image/Material/user.jpg';
+    }
 
     let avatarUrl;
     if (avatarPath) {
@@ -44,11 +56,33 @@ function updateAvatarDisplay(avatarPath) {
         avatarUrl = defaultAvatar;
     }
 
+    console.log('updateAvatarDisplay: Setting avatar to', avatarUrl);
+    
     if (headerAvatar) {
         headerAvatar.src = avatarUrl;
+        // Add error handling for broken images
+        headerAvatar.onerror = function() {
+            console.log('Avatar image failed to load:', avatarUrl);
+            // Try alternative path
+            if (avatarUrl.includes('../asset/')) {
+                this.src = 'asset/image/Material/user.jpg';
+            } else if (avatarUrl.includes('asset/')) {
+                this.src = '../asset/image/Material/user.jpg';
+            }
+        };
     }
     if (profileAvatar) {
         profileAvatar.src = avatarUrl;
+        // Add error handling for profile avatar too
+        profileAvatar.onerror = function() {
+            console.log('Profile avatar image failed to load:', avatarUrl);
+            // Try alternative path
+            if (avatarUrl.includes('../asset/')) {
+                this.src = 'asset/image/Material/user.jpg';
+            } else if (avatarUrl.includes('asset/')) {
+                this.src = '../asset/image/Material/user.jpg';
+            }
+        };
     }
 }
 

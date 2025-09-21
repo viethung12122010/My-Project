@@ -410,7 +410,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'html', 'web.html'));
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 9001;
 
 // For Vercel, export the app; for local development, start the server
 if (process.env.VERCEL || process.env.NODE_ENV === 'production') {

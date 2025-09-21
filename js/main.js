@@ -91,8 +91,74 @@ async function handleSignIn() {
     }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-    initializeMainPage();
-    CommonJS.initializeCommon();
-});
+// Main page functionality - optimized
+(function() {
+    'use strict';
+
+    function initializeMainPage() {
+        // Slit overlay animation
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+            const overlay = document.getElementById('slit-overlay');
+            if (overlay) overlay.classList.add('hide');
+        }, 200);
+        setTimeout(() => {
+            const overlay = document.getElementById('slit-overlay');
+            if (overlay) {
+                overlay.style.display = "none";
+                document.body.style.opacity = "1";
+            }
+        }, 1400);
+
+        // User status management
+        const currentUser = window.Core.getUser();
+        const userStatusContainer = document.getElementById('user-status-container');
+
+        const logoutButtonHtml = `<button id="logout-btn" class="sign-btn">Sign Out</button>`;
+
+        if (currentUser) {
+            userStatusContainer.innerHTML = logoutButtonHtml;
+        } else {
+            userStatusContainer.innerHTML = `
+                <a href="#" class="sign-btn" data-bs-toggle="modal" data-bs-target="#signInModal">Login</a>
+                <a href="#sign_up" class="sign-btn">Register</a>
+            `;
+        }
+
+        // Logout functionality
+        const logoutButton = document.getElementById('logout-btn');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('current_user');
+                localStorage.removeItem('token');
+                window.location.reload();
+            });
+        }
+
+        // Sign-in form handling
+        const signInForm = document.getElementById('signInForm');
+        if (signInForm) {
+            signInForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleSignIn();
+            });
+        }
+
+        // Check if we need to open the sign-in modal
+        if (localStorage.getItem('openSignInModal') === 'true') {
+            setTimeout(() => {
+                const signInModal = new bootstrap.Modal(document.getElementById('signInModal'));
+                signInModal.show();
+                localStorage.removeItem('openSignInModal');
+            }, 100);
+        }
+    }
+
+    // Auto-initialize
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeMainPage);
+    } else {
+        initializeMainPage();
+    }
+})();
