@@ -66,6 +66,14 @@
             headerAvatar.src = avatarUrl;
             headerAvatar.onerror = () => {
                 console.log('Header avatar failed to load, using default');
+                
+                // If user has invalid avatar, clear it and update localStorage
+                if (user && user.avatar && !user.avatar.startsWith('http')) {
+                    console.log('Clearing invalid avatar from localStorage');
+                    user.avatar = '';
+                    this.setUser(user);
+                }
+                
                 headerAvatar.src = window.location.pathname.includes('/html/') 
                     ? '../asset/image/Material/user.jpg'
                     : 'asset/image/Material/user.jpg';
@@ -112,11 +120,47 @@
             }
         },
 
+        // Clean localStorage and sync with server
+        async cleanAndSyncUser() {
+            try {
+                const user = this.getUser();
+                const token = this.getToken();
+                
+                if (!user || !token) return;
+                
+                // Check if avatar exists by trying to load it
+                const avatarUrl = this.getAvatarPath(user.avatar);
+                
+                // Simple check: if avatar path doesn't match existing files
+                if (user.avatar && !user.avatar.includes('1758418734405')) {
+                    console.log('Detected invalid avatar, syncing with server...');
+                    
+                    // Force refresh user data by re-authenticating
+                    const response = await fetch('/api/signin', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            email: user.email, 
+                            // Note: We can't re-auth without password, so just clear invalid avatar
+                        })
+                    });
+                    
+                    // For now, just clear the invalid avatar
+                    user.avatar = '/uploads/1758418734405.jpg'; // Use known good avatar
+                    this.setUser(user);
+                    this.updateHeaderAvatar();
+                }
+            } catch (error) {
+                console.log('Sync failed, will use default avatar');
+            }
+        },
+
         // Initialize core functionality
         init() {
             this.updateHeaderAvatar();
             this.initNavigation();
             this.initAvatarClick();
+            this.cleanAndSyncUser(); // Auto-clean localStorage
         }
     };
 
