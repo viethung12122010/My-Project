@@ -57,11 +57,7 @@
             const user = this.getUser();
             const avatarUrl = this.getAvatarPath(user?.avatar);
 
-            console.log('Updating header avatar:', {
-                user: user,
-                avatar: user?.avatar,
-                avatarUrl: avatarUrl
-            });
+            console.log('Updating header avatar:', user?.avatar || 'default');
 
             headerAvatar.src = avatarUrl;
             headerAvatar.onerror = () => {
@@ -128,30 +124,15 @@
                 
                 if (!user || !token) return;
                 
-                // Check if avatar exists by trying to load it
-                const avatarUrl = this.getAvatarPath(user.avatar);
-                
-                // Simple check: if avatar path doesn't match existing files
-                if (user.avatar && !user.avatar.includes('1758418734405')) {
-                    console.log('Detected invalid avatar, syncing with server...');
-                    
-                    // Force refresh user data by re-authenticating
-                    const response = await fetch('/api/signin', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            email: user.email, 
-                            // Note: We can't re-auth without password, so just clear invalid avatar
-                        })
-                    });
-                    
-                    // For now, just clear the invalid avatar
-                    user.avatar = '/uploads/1758418734405.jpg'; // Use known good avatar
+                // If user has an invalid avatar path, clear it
+                if (user.avatar && !user.avatar.startsWith('http') && !user.avatar.startsWith('/asset/') && !user.avatar.startsWith('/uploads/')) {
+                    console.log('Detected invalid avatar, clearing...');
+                    user.avatar = '';
                     this.setUser(user);
                     this.updateHeaderAvatar();
                 }
             } catch (error) {
-                console.log('Sync failed, will use default avatar');
+                console.log('Avatar cleanup failed, will use default avatar');
             }
         },
 

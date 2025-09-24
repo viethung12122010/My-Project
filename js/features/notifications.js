@@ -5,7 +5,7 @@
     const Notifications = {
         async loadCount() {
             try {
-                const response = await fetch('http://localhost:9000/api/news?category=Log&limit=100');
+                const response = await fetch('/api/news?category=Log&limit=100');
                 const data = await response.json();
                 
                 if (data.news) {
