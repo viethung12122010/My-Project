@@ -77,31 +77,6 @@ function getSohocExercises() {
             summary: 'Bài toán về ước chung lớn nhất',
             image: '../asset/image/Sohoc/GCD/GCD_3.jpg',
         },
-        // Huuti
-        {
-            id: 'sohoc-huuti-1',
-            title: 'Hữu Tỉ [1]',
-            summary: 'Các bài toán về số hữu tỉ',
-            image: '../asset/image/Sohoc/Huuti/huuti(1).jpg',
-        },
-        {
-            id: 'sohoc-huuti-2',
-            title: 'Hữu Tỉ [2]',
-            summary: 'Các bài toán về số hữu tỉ',
-            image: '../asset/image/Sohoc/Huuti/huuti(2).jpg',
-        },
-        {
-            id: 'sohoc-huuti-3',
-            title: 'Hữu Tỉ [3]',
-            summary: 'Các bài toán về số hữu tỉ',
-            image: '../asset/image/Sohoc/Huuti/huuti(3).jpg',
-        },
-        {
-            id: 'sohoc-huuti-4',
-            title: 'Hữu Tỉ [4]',
-            summary: 'Các bài toán về số hữu tỉ',
-            image: '../asset/image/Sohoc/Huuti/huuti(4).jpg',
-        },
         // Luivohan
         {
             id: 'sohoc-luivohan-1',
@@ -133,13 +108,7 @@ function getSohocExercises() {
             id: 'sohoc-ptnn-2',
             title: 'PTNN (Lim) [1]',
             summary: 'Phương trình nghiệm nguyên (Lim)',
-            image: '../asset/image/Sohoc/PTNN/PTNN(Lim)(1).jpg',
-        },
-        {
-            id: 'sohoc-ptnn-3',
-            title: 'PTNN (Lim) [2]',
-            summary: 'Phương trình nghiệm nguyên (Lim)',
-            image: '../asset/image/Sohoc/PTNN/PTNN(Lim)(2).jpg',
+            image: '../asset/image/Sohoc/PTNN/PTNN (Lim) [1].jpg',
         },
     ];
 
