@@ -124,9 +124,27 @@
                 
                 if (!user || !token) return;
                 
-                // If user has an invalid avatar path, clear it
+                // Check if avatar file actually exists
+                if (user.avatar && user.avatar.startsWith('/uploads/')) {
+                    try {
+                        const response = await fetch(user.avatar, { method: 'HEAD' });
+                        if (!response.ok) {
+                            console.log('Avatar file not found, clearing from localStorage');
+                            user.avatar = '';
+                            this.setUser(user);
+                            this.updateHeaderAvatar();
+                        }
+                    } catch (error) {
+                        console.log('Avatar check failed, clearing from localStorage');
+                        user.avatar = '';
+                        this.setUser(user);
+                        this.updateHeaderAvatar();
+                    }
+                }
+                
+                // Clear invalid avatar paths
                 if (user.avatar && !user.avatar.startsWith('http') && !user.avatar.startsWith('/asset/') && !user.avatar.startsWith('/uploads/')) {
-                    console.log('Detected invalid avatar, clearing...');
+                    console.log('Detected invalid avatar format, clearing...');
                     user.avatar = '';
                     this.setUser(user);
                     this.updateHeaderAvatar();
