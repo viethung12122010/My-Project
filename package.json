@@ -7,7 +7,16 @@
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "build": "echo 'Build completed'",
-    "test": "echo 'No test specified'"
+    "test": "echo 'No test specified'",
+    "backup": "node backup-script.js",
+    "backup:auto": "node auto-backup.js start",
+    "backup:run": "node auto-backup.js run",
+    "backup:status": "node auto-backup.js status",
+    "backup:enable": "node auto-backup.js enable",
+    "backup:disable": "node auto-backup.js disable",
+    "backup:config": "node auto-backup.js config",
+    "restore": "node restore-backup.js",
+    "restore:list": "node restore-backup.js list"
   },
   "keywords": [
     "math",
