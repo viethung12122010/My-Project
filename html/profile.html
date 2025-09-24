@@ -154,8 +154,8 @@
                 const avatarContainer = document.querySelector('.avatar-container');
                 
                 if (!newAvatarFile) {
-                    messageDiv.textContent = 'Vui lòng chọn ảnh đại diện mới trước khi lưu.';
-                    messageDiv.className = 'alert alert-warning mt-3';
+                    messageDiv.textContent = 'Không có ảnh mới để lưu. Vui lòng chọn ảnh trước.';
+                    messageDiv.className = 'alert alert-info mt-3';
                     messageDiv.classList.remove('d-none');
                     return;
                 }
@@ -182,9 +182,12 @@
                     const data = await response.json();
 
                     if (response.ok) {
-                        // Update user avatar
+                        // Update user avatar immediately
                         user.avatar = data.url;
                         window.Core.setUser(user);
+                        
+                        // Update avatar display immediately
+                        avatarImg.src = data.url.startsWith('http') ? data.url : `${window.location.origin}${data.url}`;
                         window.Core.updateHeaderAvatar();
                         
                         // Success state
@@ -196,10 +199,10 @@
                         newAvatarFile = null;
                         fileInput.value = '';
                         
-                        // Reload after a short delay to show success message
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
+                        console.log('Avatar updated successfully:', data.url);
+                        console.log('User data saved:', user);
+                        
+                        // No reload needed - avatar is already updated
                     } else {
                         throw new Error(data.error || 'Không thể tải lên ảnh đại diện.');
                     }

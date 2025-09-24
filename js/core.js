@@ -42,7 +42,9 @@
                 return avatarPath;
             }
             
-            return `${this.getBaseURL()}${avatarPath}`;
+            // Ensure path starts with /
+            const cleanPath = avatarPath.startsWith('/') ? avatarPath : `/${avatarPath}`;
+            return `${this.getBaseURL()}${cleanPath}`;
         },
 
         // Basic avatar update
@@ -55,8 +57,15 @@
             const user = this.getUser();
             const avatarUrl = this.getAvatarPath(user?.avatar);
 
+            console.log('Updating header avatar:', {
+                user: user,
+                avatar: user?.avatar,
+                avatarUrl: avatarUrl
+            });
+
             headerAvatar.src = avatarUrl;
             headerAvatar.onerror = () => {
+                console.log('Header avatar failed to load, using default');
                 headerAvatar.src = window.location.pathname.includes('/html/') 
                     ? '../asset/image/Material/user.jpg'
                     : 'asset/image/Material/user.jpg';
