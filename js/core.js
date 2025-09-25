@@ -42,6 +42,17 @@
                 return avatarPath;
             }
             
+            if (avatarPath.startsWith('/api/avatar/')) {
+                return `${this.getBaseURL()}${avatarPath}`;
+            }
+            
+            // For legacy /uploads/ paths, redirect to default
+            if (avatarPath.startsWith('/uploads/')) {
+                return window.location.pathname.includes('/html/') 
+                    ? '../asset/image/Material/user.jpg'
+                    : 'asset/image/Material/user.jpg';
+            }
+            
             // Ensure path starts with /
             const cleanPath = avatarPath.startsWith('/') ? avatarPath : `/${avatarPath}`;
             return `${this.getBaseURL()}${cleanPath}`;
@@ -124,26 +135,16 @@
                 
                 if (!user || !token) return;
                 
-                // Check if avatar file actually exists
+                // Convert old /uploads/ paths to new /api/avatar/ format
                 if (user.avatar && user.avatar.startsWith('/uploads/')) {
-                    try {
-                        const response = await fetch(user.avatar, { method: 'HEAD' });
-                        if (!response.ok) {
-                            console.log('Avatar file not found, clearing from localStorage');
-                            user.avatar = '';
-                            this.setUser(user);
-                            this.updateHeaderAvatar();
-                        }
-                    } catch (error) {
-                        console.log('Avatar check failed, clearing from localStorage');
-                        user.avatar = '';
-                        this.setUser(user);
-                        this.updateHeaderAvatar();
-                    }
+                    console.log('Converting old upload path to new avatar format');
+                    user.avatar = '';
+                    this.setUser(user);
+                    this.updateHeaderAvatar();
                 }
                 
-                // Clear invalid avatar paths
-                if (user.avatar && !user.avatar.startsWith('http') && !user.avatar.startsWith('/asset/') && !user.avatar.startsWith('/uploads/')) {
+                // Clear invalid avatar paths (keep /api/avatar/ and /asset/ paths)
+                if (user.avatar && !user.avatar.startsWith('http') && !user.avatar.startsWith('/asset/') && !user.avatar.startsWith('/api/avatar/')) {
                     console.log('Detected invalid avatar format, clearing...');
                     user.avatar = '';
                     this.setUser(user);

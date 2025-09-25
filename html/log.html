@@ -465,8 +465,17 @@
                 // Sử dụng ảnh nền cho admin
                 const adminAvatar = '../asset/image/Material/bg_pc.jpg';
                 let avatarSrc = isAdmin ? adminAvatar : defaultAvatar;
-                if (!isAdmin && post.authorAvatar) {
-                    avatarSrc = `http://localhost:9000${post.authorAvatar}`;
+                if (post.authorAvatar) {
+                    if (post.authorAvatar.startsWith('/api/avatar/')) {
+                        avatarSrc = `${window.location.origin}${post.authorAvatar}`;
+                    } else if (post.authorAvatar.startsWith('/uploads/')) {
+                        // Legacy uploads path - use default
+                        avatarSrc = isAdmin ? adminAvatar : defaultAvatar;
+                    } else if (post.authorAvatar.startsWith('../asset/') || post.authorAvatar.startsWith('/asset/')) {
+                        avatarSrc = post.authorAvatar;
+                    } else {
+                        avatarSrc = isAdmin ? adminAvatar : defaultAvatar;
+                    }
                 }
 
                 postCard.innerHTML = `

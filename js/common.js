@@ -49,6 +49,11 @@ function updateAvatarDisplay(avatarPath) {
     if (avatarPath) {
         if (avatarPath.startsWith('http')) {
             avatarUrl = avatarPath;
+        } else if (avatarPath.startsWith('/api/avatar/')) {
+            avatarUrl = `${getBaseURL()}${avatarPath}`;
+        } else if (avatarPath.startsWith('/uploads/')) {
+            // Legacy uploads path - use default
+            avatarUrl = defaultAvatar;
         } else {
             avatarUrl = `${getBaseURL()}${avatarPath}`;
         }

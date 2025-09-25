@@ -49,55 +49,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Storage for uploaded avatars (serve /uploads)
-// Use /tmp directory in production (Vercel) or uploads directory in development
-const uploadsDir = process.env.NODE_ENV === 'production' 
-    ? '/tmp/uploads' 
-    : path.join(__dirname, 'uploads');
-
-console.log('Upload configuration:', {
-    NODE_ENV: process.env.NODE_ENV,
-    uploadsDir: uploadsDir,
-    uploadsExists: fs.existsSync(uploadsDir)
-});
-
-// Create uploads directory if it doesn't exist
-if (!fs.existsSync(uploadsDir)) {
-    try {
-        fs.mkdirSync(uploadsDir, { recursive: true });
-    } catch (error) {
-        console.warn('Could not create uploads directory:', error.message);
-    }
-}
-
-app.get('/uploads/:filename', (req, res) => {
-  const { filename } = req.params;
-  const filePath = path.join(uploadsDir, filename);
+// Avatar endpoint to serve base64 images
+app.get('/api/avatar/:userId', (req, res) => {
+  const { userId } = req.params;
+  const user = users.find(u => String(u.id) === String(userId));
   
-  console.log(`[UPLOADS] Request for filename: ${filename}`);
-  console.log(`[UPLOADS] Checking path: ${filePath}`);
-
-  try {
-    const tmpContents = fs.readdirSync('/tmp');
-    console.log('[UPLOADS] Contents of /tmp:', tmpContents);
-    
-    if (fs.existsSync(uploadsDir)) {
-      const uploadsContents = fs.readdirSync(uploadsDir);
-      console.log(`[UPLOADS] Contents of ${uploadsDir}:`, uploadsContents);
-    } else {
-      console.log(`[UPLOADS] Directory ${uploadsDir} does not exist.`);
-    }
-
-  } catch (e) {
-    console.error('[UPLOADS] Error reading /tmp directory:', e);
+  if (!user || !user.avatarData) {
+    return res.status(404).send('Avatar not found');
   }
-
-  if (fs.existsSync(filePath)) {
-    console.log(`[UPLOADS] SUCCESS: File found. Serving ${filename}.`);
-    res.sendFile(filePath);
-  } else {
-    console.log(`[UPLOADS] FAILURE: File not found at ${filePath}.`);
-    res.status(404).send('File not found');
+  
+  try {
+    // Parse base64 data
+    const matches = user.avatarData.match(/^data:image\/([a-zA-Z]*);base64,(.+)$/);
+    if (!matches) {
+      return res.status(400).send('Invalid avatar data');
+    }
+    
+    const imageType = matches[1];
+    const imageData = matches[2];
+    const buffer = Buffer.from(imageData, 'base64');
+    
+    res.setHeader('Content-Type', `image/${imageType}`);
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+    res.send(buffer);
+  } catch (error) {
+    console.error('Error serving avatar:', error);
+    res.status(500).send('Error serving avatar');
   }
 });
 
@@ -182,9 +159,18 @@ function auth(req, res, next) {
   }
 }
 
-// Upload avatar
-const storage = multer.diskStorage({ destination: uploadsDir, filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)) });
-const upload = multer({ storage });
+// Upload avatar using base64 storage
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'), false);
+    }
+  }
+});
 
 app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
   try {
@@ -197,12 +183,15 @@ app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    const url = `/uploads/${req.file.filename}`;
-    user.avatar = url;
+    // Convert image to base64 and store in user data
+    const base64Data = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    user.avatarData = base64Data;
+    user.avatar = `/api/avatar/${user.id}`;
+    
     writeJSON(USERS_FILE, users);
 
-    console.log(`Avatar updated for user ${req.user.id}: ${url}`);
-    res.json({ url });
+    console.log(`Avatar updated for user ${req.user.id}: ${user.avatar}`);
+    res.json({ url: user.avatar });
   } catch (error) {
     console.error('Error processing avatar upload:', error);
     res.status(500).json({ error: 'Avatar upload failed.' });
@@ -353,8 +342,25 @@ if (!exams.length) {
   writeJSON(EXAMS_FILE, exams);
 }
 
+// Create admin user if doesn't exist
+if (!users.find(u => u.email === 'lviethung6a5@gmail.com')) {
+  const adminId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
+  const adminUser = {
+    id: adminId,
+    username: 'Admin',
+    email: 'lviethung6a5@gmail.com',
+    password: bcrypt.hashSync('admin123', 8), // Default password
+    avatar: '/api/avatar/' + adminId,
+    avatarData: '' // Will be set to default avatar
+  };
+  users.push(adminUser);
+  writeJSON(USERS_FILE, users);
+}
+
 // seed sample log posts if empty
 if (!news.length) {
+  const adminUser = users.find(u => u.email === 'lviethung6a5@gmail.com') || users[0];
+  
   news.push({
     id: 1,
     title: 'Log Post',
@@ -372,8 +378,8 @@ Cảm ơn các bạn đã quan tâm và ủng hộ My Project! 💪`,
     image: '',
     category: 'Log',
     author: 'Admin',
-    authorId: 1,
-    authorAvatar: '/asset/image/Material/bg_pc.jpg',
+    authorId: adminUser.id,
+    authorAvatar: adminUser.avatar || '/asset/image/Material/bg_pc.jpg',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -396,8 +402,8 @@ Hy vọng các bạn sẽ thích! 😊`,
     image: '',
     category: 'Log',
     author: 'Admin',
-    authorId: 1,
-    authorAvatar: '/asset/image/Material/bg_pc.jpg',
+    authorId: adminUser.id,
+    authorAvatar: adminUser.avatar || '/asset/image/Material/bg_pc.jpg',
     createdAt: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
     updatedAt: new Date(Date.now() - 3600000).toISOString()
   });
