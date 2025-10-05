@@ -12,6 +12,136 @@
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../css/Pt.css">
+    
+    <style>
+        .exercise-card {
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1), 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            width: 320px;
+            vertical-align: top;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .exercise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .exercise-card:hover::before {
+            left: 100%;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        
+        .card-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .exercise-card:hover .card-image img {
+            transform: scale(1.15);
+        }
+        
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .card-title {
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card-desc {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .card-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .card-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .cards-container {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,11 +174,98 @@
     </header>
 
     <div class="container-main">
-        <h2 style="color: var(--primary-color); font-family: 'Bungee', cursive; text-shadow: 0 2px 12px #fff, 0 4px 24px rgba(37, 117, 252, 0.2);">Bộ bài tập Phương Trình</h2>
-        <div id="cards" class="cards" aria-live="polite"></div>
+        <h2 style="color: var(--primary-color); font-family: 'Bungee', cursive; text-shadow: 0 2px 12px #fff, 0 4px 24px rgba(37, 117, 252, 0.2);">⚡ Bộ bài tập Phương Trình ⚡</h2>
+        
+        <div class="cards-container">
+            
+            <!-- PT1_1 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/PT/PT1_1.jpg" alt="PT1_1" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">Legendary</div>
+                </div>
+                <h3 class="card-title">⚡ Phương Trình - Dạng 1.1</h3>
+                <p class="card-desc">Các bài toán cơ bản về phương trình - Nền tảng quan trọng</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/PT/PT1_1.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/PT/PT1_1.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- PT1_2 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/PT/PT1_2.jpg" alt="PT1_2" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">Epic</div>
+                </div>
+                <h3 class="card-title">⚡ Phương Trình - Dạng 1.2</h3>
+                <p class="card-desc">Các bài toán về phương trình nâng cao hơn</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/PT/PT1_2.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/PT/PT1_2.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- PT2 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/PT/PT2.jpg" alt="PT2" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">Rare</div>
+                </div>
+                <h3 class="card-title">⚡ Phương Trình - Dạng 2</h3>
+                <p class="card-desc">Các bài toán nâng cao về phương trình</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/PT/PT2.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/PT/PT2.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- HPT1 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/HPT/HPT1.jpg" alt="HPT1" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">Uncommon</div>
+                </div>
+                <h3 class="card-title">🔥 Hệ Phương Trình - Dạng 1</h3>
+                <p class="card-desc">Các bài toán cơ bản về hệ phương trình</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT1.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT1.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- HPT2 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/HPT/HPT2.jpg" alt="HPT2" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333;">Common</div>
+                </div>
+                <h3 class="card-title">🔥 Hệ Phương Trình - Dạng 2</h3>
+                <p class="card-desc">Các bài toán nâng cao về hệ phương trình</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT2.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT2.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- HPT3 -->
+            <div class="exercise-card">
+                <div class="card-image">
+                    <img src="../asset/image/PT-HPT/HPT/HPT3.jpg" alt="HPT3" onclick="openImageModal(this)">
+                    <div class="difficulty-badge" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); color: white;">Mythical</div>
+                </div>
+                <h3 class="card-title">🔥 Hệ Phương Trình - Dạng 3</h3>
+                <p class="card-desc">Các bài toán phức tạp và trường hợp đặc biệt - Cực khó!</p>
+                <div class="card-buttons">
+                    <button class="card-button btn-primary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT3.jpg', '_blank')">🚀 Mở Bài</button>
+                    <button class="card-button btn-secondary" onclick="window.open('../asset/image/PT-HPT/HPT/HPT3.jpg', '_blank')">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- New Navigation Overlay -->
+    <!-- Navigation Overlay -->
     <div class="nav-overlay" id="navOverlay">
         <button class="close-nav-button" id="closeNavButton">&times;</button>
         <div class="nav-grid">
@@ -87,28 +304,9 @@
         </div>
     </div>
 
-    <!-- Optimized loading -->
+    <!-- Scripts -->
     <script src="../js/core.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Promise.all([
-                import('../js/features/exercise-cards.js').catch(() => loadScript('../js/features/exercise-cards.js')),
-                import('../js/features/image-modal.js').catch(() => loadScript('../js/features/image-modal.js'))
-            ]).then(() => {
-                import('../js/pt.js').catch(() => loadScript('../js/pt.js'));
-            });
-            
-            function loadScript(src) {
-                return new Promise((resolve) => {
-                    const script = document.createElement('script');
-                    script.src = src;
-                    script.onload = resolve;
-                    document.head.appendChild(script);
-                });
-            }
-        });
-    </script>
+    <script src="../js/features/image-modal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
-
 </html>

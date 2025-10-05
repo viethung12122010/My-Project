@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đại Số - My Project</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/Pt.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="logo">
+            <a href="/html/web.html">
+                <img id="site-logo" src="../asset/image/Material/logohsgs.jpg" alt="logo">
+            </a>
+            Đại Số
+        </div>
+
+        <div class="header-right">
+            <form class="search-bar" onsubmit="event.preventDefault(); alert('Tìm kiếm!');">
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="/html/web.html" class="header-icon"><i class="fas fa-home"></i></a>
+            <button class="notification-header-btn" onclick="window.location.href='/html/log.html'">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="headerNotificationCount">0</span>
+            </button>
+            <div id="avatarWrap">
+                <img id="headerAvatar" src="../asset/image/Material/user.jpg" alt="avatar">
+                <div id="headerUser">Guest</div>
+            </div>
+            <button class="nav-menu-button" id="navMenuButton">
+                <i class="fas fa-th-large"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container-main">
+        <h2 style="color: var(--primary-color); font-family: 'Bungee', cursive; text-shadow: 0 2px 12px #fff, 0 4px 24px rgba(37, 117, 252, 0.2);">Bộ bài tập Phương Trình</h2>
+        <div id="cards" class="cards" aria-live="polite">
+            
+            <!-- Phương Trình Cards -->
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/PT/PT1_1.jpg" alt="Phương trình PT1_1" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #2196f3; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Legendary</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Phương Trình - Dạng 1.1</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán cơ bản về phương trình</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT1_1.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT1_1.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/PT/PT1_2.jpg" alt="Phương trình PT1_2" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #2196f3; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Rare</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Phương Trình - Dạng 1.2</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán cơ bản về phương trình</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT1_2.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT1_2.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/PT/PT2.jpg" alt="Phương trình PT2" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #2196f3; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Epic</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Phương Trình - Dạng 2</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán nâng cao về phương trình</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT2.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/PT/PT2.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <!-- Hệ Phương Trình Cards -->
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/HPT/HPT1.jpg" alt="Hệ phương trình HPT1" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #ff9800; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Uncommon</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Hệ Phương Trình - Dạng 1</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán cơ bản về hệ phương trình</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT1.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT1.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/HPT/HPT2.jpg" alt="Hệ phương trình HPT2" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #ff9800; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Rare</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Hệ Phương Trình - Dạng 2</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán nâng cao về hệ phương trình</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT2.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT2.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+            <div class="exercise-card" style="border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin: 10px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; display: inline-block; width: 280px; vertical-align: top;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="../asset/image/PT-HPT/HPT/HPT3.jpg" alt="Hệ phương trình HPT3" style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;" onclick="window.open(this.src, '_blank')">
+                </div>
+                <div style="background: #dc3545; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">Mythical</div>
+                <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">Hệ Phương Trình - Dạng 3</h3>
+                <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">Các bài toán phức tạp và trường hợp đặc biệt</p>
+                <div style="margin-top: 15px;">
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT3.jpg', '_blank')" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">➕ Mở Bài</button>
+                    <button onclick="window.open('../asset/image/PT-HPT/HPT/HPT3.jpg', '_blank')" style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">👁️ Xem Ảnh</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- New Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay">
+        <button class="close-nav-button" id="closeNavButton">&times;</button>
+        <div class="nav-grid">
+            <a href="/html/web.html" class="nav-card">
+                <i class="fas fa-home"></i>
+                <span>Trang Chủ</span>
+            </a>
+            <a href="/html/Sohoc.html" class="nav-card">
+                <i class="fas fa-calculator"></i>
+                <span>Số Học</span>
+            </a>
+            <a href="/html/Pt.html" class="nav-card">
+                <i class="fas fa-equals"></i>
+                <span>Đại Số</span>
+            </a>
+            <a href="/html/Dethi.html" class="nav-card">
+                <i class="fas fa-book-open"></i>
+                <span>Đề Thi</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal for showing images -->
+    <div class="modal fade" id="viewImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="viewImageModalTitle" class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body p-0" id="viewImageModalImagesContainer"></div>
+                <div class="modal-footer">
+                    <p id="viewImageModalDesc" class="mb-0"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optimized loading -->
+    <script src="../js/core.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Promise.all([
+                import('../js/features/exercise-cards.js').catch(() => loadScript('../js/features/exercise-cards.js')),
+                import('../js/features/image-modal.js').catch(() => loadScript('../js/features/image-modal.js'))
+            ]).then(() => {
+                import('../js/pt.js').catch(() => loadScript('../js/pt.js'));
+            });
+            
+            function loadScript(src) {
+                return new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                });
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+
+</html>

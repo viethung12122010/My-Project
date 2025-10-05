@@ -130,7 +130,7 @@ function initializeNavigation() {
 // Notification functions
 async function loadNotificationCount() {
     try {
-        const response = await fetch('http://localhost:9000/api/news?category=Log&limit=100');
+        const response = await fetch('http://localhost:9001/api/news?category=Log&limit=100');
         const data = await response.json();
         
         if (data.news) {

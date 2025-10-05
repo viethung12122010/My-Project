@@ -1,4 +1,4 @@
-// Pt page (Pt.html) JavaScript functionality
+// Pt page JavaScript functionality
 
 const PT_STORAGE_KEY = 'ptExercises';
 
@@ -9,42 +9,40 @@ function getPtExercises() {
     }
 
     let exercises = [
-        // PT (Phương Trình)
         {
             id: 'pt-1',
-            title: 'Phương trình - Dạng 1.1',
-            summary: 'Các bài toán cơ bản về phương trình.',
+            title: 'Phương trình - PT1_1',
+            summary: 'Các bài toán về phương trình',
             image: '../asset/image/PT-HPT/PT/PT1_1.jpg',
         },
         {
             id: 'pt-2',
-            title: 'Phương trình - Dạng 1.2',
-            summary: 'Các bài toán cơ bản về phương trình',
+            title: 'Phương trình - PT1_2',
+            summary: 'Các bài toán về phương trình',
             image: '../asset/image/PT-HPT/PT/PT1_2.jpg',
         },
         {
             id: 'pt-3',
-            title: 'Phương trình - Dạng 2',
-            summary: 'Các bài toán nâng cao về phương trình.',
+            title: 'Phương trình - PT2',
+            summary: 'Các bài toán về phương trình',
             image: '../asset/image/PT-HPT/PT/PT2.jpg',
         },
-        // HPT (Hệ Phương Trình)
         {
             id: 'hpt-1',
-            title: 'Hệ Phương trình - Dạng 1',
-            summary: 'Các bài toán cơ bản về hệ phương trình.',
+            title: 'Hệ Phương trình - HPT1',
+            summary: 'Các bài toán về hệ phương trình',
             image: '../asset/image/PT-HPT/HPT/HPT1.jpg',
         },
         {
             id: 'hpt-2',
-            title: 'Hệ Phương trình - Dạng 2',
-            summary: 'Các bài toán nâng cao về hệ phương trình.',
+            title: 'Hệ Phương trình - HPT2',
+            summary: 'Các bài toán về hệ phương trình',
             image: '../asset/image/PT-HPT/HPT/HPT2.jpg',
         },
         {
             id: 'hpt-3',
-            title: 'Hệ Phương trình - Dạng 3',
-            summary: 'Các bài toán phức tạp và các trường hợp đặc biệt.',
+            title: 'Hệ Phương trình - HPT3',
+            summary: 'Các bài toán về hệ phương trình',
             image: '../asset/image/PT-HPT/HPT/HPT3.jpg',
         }
     ];
@@ -59,52 +57,107 @@ function getPtExercises() {
 }
 
 function renderPtCards() {
-    const exercises = getPtExercises();
-    const sortOrder = ['Mythical', 'Legendary', 'Rare', 'Uncommon', 'Common'];
-    exercises.sort((a, b) => {
-        const aIndex = sortOrder.indexOf(a.difficulty);
-        const bIndex = sortOrder.indexOf(b.difficulty);
-        return aIndex - bIndex;
-    });
-
+    console.log('=== Starting renderPtCards ===');
+    
     const cardsRoot = document.getElementById('cards');
-    if (!cardsRoot) return;
+    console.log('Cards container:', cardsRoot);
+    
+    if (!cardsRoot) {
+        console.error('Cards container not found!');
+        return;
+    }
 
-    exercises.forEach(ex => {
-        const card = document.createElement('article');
-        card.className = `exercise-card ${ex.difficulty}`;
+    // Clear existing content
+    cardsRoot.innerHTML = '';
+    
+    // Force fresh data
+    localStorage.removeItem('ptExercises');
+    const exercises = getPtExercises();
+    console.log('Got exercises:', exercises.length);
+    
+    if (exercises.length === 0) {
+        cardsRoot.innerHTML = '<p>Không có bài tập nào!</p>';
+        return;
+    }
+
+    // Create cards directly
+    exercises.forEach((ex, index) => {
+        console.log(`Creating card ${index + 1}:`, ex.title);
+        
+        const card = document.createElement('div');
+        card.className = 'exercise-card';
+        card.style.cssText = `
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            width: 280px;
+            vertical-align: top;
+        `;
+        
         card.innerHTML = `
-            <div class="thumb">
-                <img src="${ex.image}" alt="${ex.title}">
+            <div style="text-align: center; margin-bottom: 10px;">
+                <img src="${ex.image}" alt="${ex.title}" 
+                     style="width: 100%; max-width: 250px; height: 180px; object-fit: cover; border-radius: 8px;"
+                     onerror="this.style.background='#f0f0f0'; this.style.color='#666'; this.innerHTML='Ảnh không tải được';">
             </div>
-            <div class="meta">
-                <div class="badge-diff ${ex.difficulty}">${ex.difficulty}</div>
+            <div style="background: #2196f3; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px;">
+                ${ex.difficulty || 'Normal'}
             </div>
-            <h3 class="title">${ex.title}</h3>
-            <p class="desc">${ex.summary}</p>
-            <div class="card-actions">
-                <button class="play-btn">Mở Đề</button>
-                <button class="btn-ghost"><i class="fa fa-eye"></i> Xem Ảnh</button>
+            <h3 style="color: #333; font-size: 16px; margin: 10px 0; font-weight: bold;">
+                ${ex.title}
+            </h3>
+            <p style="color: #666; font-size: 14px; margin: 10px 0; line-height: 1.4;">
+                ${ex.summary}
+            </p>
+            <div style="margin-top: 15px;">
+                <button onclick="viewImage('${ex.image}', '${ex.title}')" 
+                        style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">
+                    ➕ Mở Bài
+                </button>
+                <button onclick="viewImage('${ex.image}', '${ex.title}')" 
+                        style="background: #ff5722; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+                    👁️ Xem Ảnh
+                </button>
             </div>
         `;
-
-        card.querySelector('.play-btn').addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            CommonJS.showImageInModal(ex.image, ex.title, ex.summary);
+        
+        // Add hover effect
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+            card.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
         });
-
-        card.querySelector('.btn-ghost').addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            CommonJS.showImageInModal(ex.image, ex.title, ex.summary);
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
         });
-
-        card.addEventListener('click', () => CommonJS.showImageInModal(ex.image, ex.title, ex.summary));
+        
         cardsRoot.appendChild(card);
     });
+    
+    console.log('=== Finished rendering Pt cards ===');
+}
+
+// Global function to view images
+function viewImage(imageSrc, title) {
+    window.open(imageSrc, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
 }
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
-    CommonJS.initializeCommon();
+    console.log('➕ Pt page DOM loaded');
+    
+    if (typeof CommonJS !== 'undefined') {
+        CommonJS.initializeCommon();
+    }
+    
+    console.log('About to render pt cards');
     renderPtCards();
+    console.log('✅ Pt cards rendering completed');
 });

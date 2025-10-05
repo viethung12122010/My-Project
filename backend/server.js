@@ -143,19 +143,40 @@ app.post('/api/signin', (req, res) => {
   res.json({ user: safe, token: generateToken(safe) });
 });
 
-// Auth middleware
+// Auth middleware with enhanced debugging
 function auth(req, res, next) {
+  console.log('🔐 Auth middleware called for:', req.path);
+  console.log('📋 Headers:', req.headers.authorization ? 'Present' : 'Missing');
+  
   const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ error: 'no token' });
+  if (!header) {
+    console.log('❌ No authorization header');
+    return res.status(401).json({ error: 'no token' });
+  }
+  
   const parts = header.split(' ');
-  if (parts.length !== 2) return res.status(401).json({ error: 'bad token' });
+  if (parts.length !== 2) {
+    console.log('❌ Invalid token format:', parts.length, 'parts');
+    return res.status(401).json({ error: 'bad token format' });
+  }
+  
+  const token = parts[1];
+  console.log('🔑 Token received (first 20 chars):', token.substring(0, 20) + '...');
+  
   try { 
-    const payload = jwt.verify(parts[1], JWT_SECRET); 
+    const payload = jwt.verify(token, JWT_SECRET); 
+    console.log('✅ Token verified for user:', payload.id, payload.email);
     req.user = payload; 
     next(); 
   } catch (e) { 
-    console.error('JWT verification error:', e.message);
-    res.status(401).json({ error: 'invalid token', details: e.message }); 
+    console.error('💥 JWT verification error:', e.message);
+    console.error('🔍 Token used:', token.substring(0, 50) + '...');
+    console.error('🔍 JWT Secret:', JWT_SECRET.substring(0, 10) + '...');
+    res.status(401).json({ 
+      error: 'invalid token', 
+      details: e.message,
+      tokenPreview: token.substring(0, 20) + '...'
+    }); 
   }
 }
 
@@ -173,13 +194,26 @@ const upload = multer({
 });
 
 app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
+  console.log('📁 Avatar upload request received');
+  console.log('📝 Headers:', req.headers);
+  console.log('👤 User ID:', req.user?.id);
+  console.log('📎 File:', req.file ? 'Present' : 'Missing');
+  
   try {
     if (!req.file) {
+      console.log('❌ No file in request');
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
+    console.log('📋 File details:', {
+      originalname: req.file.originalname,
+      mimetype: req.file.mimetype,
+      size: req.file.size
+    });
+
     const user = users.find(u => u.id === req.user.id);
     if (!user) {
+      console.log('❌ User not found:', req.user.id);
       return res.status(404).json({ error: 'User not found.' });
     }
 
@@ -190,11 +224,22 @@ app.post('/api/upload-avatar', auth, upload.single('avatar'), (req, res) => {
     
     writeJSON(USERS_FILE, users);
 
-    console.log(`Avatar updated for user ${req.user.id}: ${user.avatar}`);
-    res.json({ url: user.avatar });
+    console.log(`✅ Avatar updated for user ${req.user.id}: ${user.avatar}`);
+    console.log(`📊 Base64 data length: ${base64Data.length} characters`);
+    
+    res.json({ 
+      url: user.avatar,
+      message: 'Avatar uploaded successfully',
+      fileSize: req.file.size,
+      mimetype: req.file.mimetype
+    });
   } catch (error) {
-    console.error('Error processing avatar upload:', error);
-    res.status(500).json({ error: 'Avatar upload failed.' });
+    console.error('💥 Error processing avatar upload:', error);
+    console.error('Stack trace:', error.stack);
+    res.status(500).json({ 
+      error: 'Avatar upload failed.',
+      details: error.message
+    });
   }
 });
 

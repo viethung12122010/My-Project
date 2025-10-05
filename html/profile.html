@@ -181,6 +181,20 @@
 
                     const data = await response.json();
 
+                    // Handle 401 Unauthorized - token expired
+                    if (response.status === 401) {
+                        messageDiv.textContent = 'Token đã hết hạn. Đang yêu cầu đăng nhập lại...';
+                        messageDiv.className = 'alert alert-warning mt-3';
+                        messageDiv.classList.remove('d-none');
+                        
+                        // Redirect to login after 2 seconds
+                        setTimeout(() => {
+                            localStorage.clear();
+                            window.location.href = '/html/sign_up.html';
+                        }, 2000);
+                        return;
+                    }
+
                     if (response.ok) {
                         // Update user avatar immediately
                         user.avatar = data.url;
